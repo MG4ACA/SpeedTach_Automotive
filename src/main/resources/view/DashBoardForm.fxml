@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.MotionBlur?>
 <?import javafx.scene.image.Image?>
@@ -104,6 +105,36 @@
                   </ImageView>
                </children>
             </Pane>
+            <Label fx:id="lblDate" layoutX="238.0" layoutY="24.0" prefHeight="46.0" prefWidth="142.0" text="2023.09.12" textFill="#09832c">
+               <font>
+                  <Font name="Arial" size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTimeHour" layoutX="931.0" layoutY="24.0" prefHeight="46.0" prefWidth="37.0" text=" 00" textAlignment="CENTER" textFill="#09832c">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTimeSec" layoutX="1013.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=" 00" textAlignment="CENTER" textFill="#09832c">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTimeMin" layoutX="973.0" layoutY="23.0" prefHeight="46.0" prefWidth="37.0" text=" 00" textAlignment="CENTER" textFill="#09832c">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="963.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="1004.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
