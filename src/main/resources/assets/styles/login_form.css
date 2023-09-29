@@ -1,0 +1,43 @@
+
+.button-class {
+    -fx-font-size: 14px;
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 5px;
+    -fx-text-fill: #000000;
+}
+
+.button-class:hover {
+    background-color: #1366d6;
+    box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+    opacity: 1;
+    /* transform: translateY(0); */
+    transition-duration: .35s;
+}
+
+
+@media (min-width: 768px) {
+    .button-class {
+        padding: 14px 22px;
+        width: 176px;
+    }
+}
+
+.text-class{
+}
+
+.form_container{
+    -fx-background-color: rgba(255, 255, 255, 0.6); /* Transparent white background */
+    -fx-background-radius: 10px;
+    -fx-background-insets: 10px;
+    -fx-padding: 20px;
+}
+
+.image-container{
+    -fx-background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+    -fx-background-radius: 10px;
+    -fx-background-insets: 10px;
+}
+
+.form_container{
+
+}
