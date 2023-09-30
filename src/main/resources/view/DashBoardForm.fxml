@@ -110,27 +110,27 @@
                   <Font name="Arial" size="21.0" />
                </font>
             </Label>
-            <Label fx:id="lblTimeHour" layoutX="931.0" layoutY="24.0" prefHeight="46.0" prefWidth="37.0" text=" 00" textAlignment="CENTER" textFill="#09832c">
+            <Label fx:id="lblTimeHour" alignment="CENTER" layoutX="926.0" layoutY="24.0" prefHeight="46.0" prefWidth="37.0" styleClass="timePane" stylesheets="@../assets/styles/dashboard_form.css" text=" 00" textFill="#09832c">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="lblTimeSec" layoutX="1013.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=" 00" textAlignment="CENTER" textFill="#09832c">
+            <Label fx:id="lblTimeSec" alignment="CENTER" contentDisplay="CENTER" layoutX="1018.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" styleClass="timePane" stylesheets="@../assets/styles/dashboard_form.css" text=" 00" textAlignment="CENTER" textFill="#09832c">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="lblTimeMin" layoutX="973.0" layoutY="23.0" prefHeight="46.0" prefWidth="37.0" text=" 00" textAlignment="CENTER" textFill="#09832c">
+            <Label fx:id="lblTimeMin" alignment="CENTER" layoutX="973.0" layoutY="23.0" prefHeight="46.0" prefWidth="37.0" styleClass="timePane" stylesheets="@../assets/styles/dashboard_form.css" text=" 00" textAlignment="CENTER" textFill="#09832c">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="963.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
+            <Label layoutX="966.0" layoutY="24.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="1004.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
+            <Label layoutX="1009.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
                <font>
                   <Font name="Arial" size="24.0" />
                </font>

@@ -15,6 +15,14 @@
     transition-duration: .35s;
 }
 
+.timePane{
+    -fx-background-color:linear-gradient(white,black,black, black, white);
+    -fx-border-radius: 10px;
+    -fx-border-color: black;
+    -fx-background-radius: 10px;
+
+}
+
 
 @media (min-width: 768px) {
     .button-class {
