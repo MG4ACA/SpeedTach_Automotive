@@ -1,12 +1,12 @@
 package com.speedtech_automotive.controller;
 
-import com.speedtech_automotive.utils.Timer;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import static com.speedtech_automotive.utils.Utils.setUi;
+
 public class DashBoardFormController {
 
     public Pane paneTimer;
@@ -24,31 +26,10 @@ public class DashBoardFormController {
     public Label lblTimeHour;
     public Label lblTimeSec;
     public Label lblTimeMin;
+    public Pane mainPane;
 
-    public void initialize() throws IOException {
-       // Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/DashBoardForm.fxml")));
-//        mainPane.getChildren().setAll(pane);
-//        new Timer().initialize();
+    public void initialize() {
         generateRealTime();
-
-
-    }
-
-    public void btnOrderOnAction(ActionEvent actionEvent) {
-        setUi("");
-    }
-
-    public void btnInventryOnAction(ActionEvent actionEvent) {
-        setUi("");
-    }
-
-    public void setUi(String url){
-        try {
-            Pane pane = FXMLLoader.load(getClass().getResource("/view/"+url+".fxml"));
-            secondPane.getChildren().setAll(pane);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /*-----DATE AND TIME GENERATE------*/
@@ -68,4 +49,24 @@ public class DashBoardFormController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+
+    public void loadOrderForm(ActionEvent actionEvent) {
+        setUi("OrderForm", secondPane);
+    }
+
+    public void loadReportsForm(ActionEvent actionEvent) {
+        setUi("ReportForm",secondPane);
+    }
+
+    public void loadDashBoardForm(ActionEvent actionEvent) {
+        setUi("SubDashBoardForm",secondPane);
+    }
+
+    public void loadInventoryForm(ActionEvent actionEvent) {
+        setUi("InventoryForm", secondPane);
+    }
+
+    public void logOutOnAction(MouseEvent mouseEvent) throws IOException {
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/LoginPage.fxml")));
+        mainPane.getChildren().setAll(pane);     }
 }
