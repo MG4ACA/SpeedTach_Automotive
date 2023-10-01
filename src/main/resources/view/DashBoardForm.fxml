@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Bloom?>
@@ -10,13 +9,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPane" prefHeight="669.0" prefWidth="1077.0" stylesheets="@../assets/styles/dashboard_form.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.DashBoardFormController">
+<AnchorPane prefHeight="669.0" prefWidth="1077.0" stylesheets="@../assets/styles/dashboard_form.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.DashBoardFormController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1199.0" layoutX="-110.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" styleClass="main-container">
          <image>
@@ -28,7 +25,7 @@
             <MotionBlur angle="21.0" radius="0.0" />
          </effect>
          <children>
-            <Button fx:id="btnOrders" layoutX="10.0" layoutY="29.0" mnemonicParsing="false" onAction="#loadOrderForm" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Order Details">
+            <Button fx:id="btnOrders" layoutX="10.0" layoutY="29.0" mnemonicParsing="false" onAction="#btnOrderOnAction" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Order Details">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -36,7 +33,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnReports" layoutX="10.0" layoutY="137.0" mnemonicParsing="false" onAction="#loadReportsForm" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Reports">
+            <Button fx:id="btnReports" layoutX="10.0" layoutY="137.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Reports">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -44,7 +41,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnDashboard" layoutX="10.0" layoutY="101.0" mnemonicParsing="false" onAction="#loadDashBoardForm" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="DashBoard">
+            <Button fx:id="btnDashboard" layoutX="10.0" layoutY="101.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="DashBoard">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -52,7 +49,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnInventry" layoutX="10.0" layoutY="65.0" mnemonicParsing="false" onAction="#loadInventoryForm" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Inventory Manage">
+            <Button fx:id="btnInventry" layoutX="10.0" layoutY="65.0" mnemonicParsing="false" onAction="#btnInventryOnAction" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Inventry Manage">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -60,43 +57,27 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <Line endX="103.73335266113281" layoutX="108.0" layoutY="63.0" startX="-100.0" />
             <Line endX="103.73335266113281" layoutX="109.0" layoutY="99.0" startX="-100.0" />
             <Line endX="103.73335266113281" layoutX="110.0" layoutY="135.0" startX="-100.0" />
+            <Button fx:id="btnLogin11" layoutX="10.0" layoutY="173.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="LOGIN">
+               <font>
+                  <Font name="System Italic" size="4.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
             <Line endX="103.73335266113281" layoutX="110.0" layoutY="171.0" startX="-100.0" />
-            <Group layoutX="11.0" layoutY="538.0" onMouseClicked="#logOutOnAction">
-               <children>
-                  <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="46.0" prefWidth="203.0" styleClass="button-class" text="LOGOUT" textAlignment="RIGHT" textOverrun="CLIP" wrapText="true">
-                     <font>
-                        <Font name="Blackadder ITC" size="65.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <textFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                           <stops>
-                              <Stop>
-                                 <color>
-                                    <Color />
-                                 </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </Stop>
-                           </stops>
-                        </LinearGradient>
-                     </textFill>
-                  </Button>
-                  <ImageView fitHeight="46.0" fitWidth="37.0" layoutX="156.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/logout_icon.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Group>
+            <Button fx:id="btnLogin111" alignment="CENTER" layoutX="11.0" layoutY="538.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="203.0" styleClass="button-class" text="LOGIN" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="Blackadder ITC" size="65.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
       <Pane fx:id="secondPane" layoutX="211.0" layoutY="73.0" prefHeight="594.0" prefWidth="874.0" styleClass="form_container">
@@ -124,131 +105,35 @@
                   </ImageView>
                </children>
             </Pane>
-            <Label fx:id="lblTimeHour" alignment="CENTER" layoutX="918.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="43" textAlignment="CENTER">
+            <Label fx:id="lblDate" layoutX="238.0" layoutY="24.0" prefHeight="46.0" prefWidth="142.0" text="2023.09.12" textFill="#09832c">
                <font>
-                  <Font name="Agency FB Bold" size="47.0" />
+                  <Font name="Arial" size="21.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label fx:id="lblTimeSec" alignment="CENTER" layoutX="1024.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="25" textAlignment="CENTER">
+            <Label fx:id="lblTimeHour" alignment="CENTER" layoutX="926.0" layoutY="24.0" prefHeight="46.0" prefWidth="37.0" styleClass="timePane" stylesheets="@../assets/styles/dashboard_form.css" text=" 00" textFill="#09832c">
                <font>
-                  <Font name="Agency FB Bold" size="47.0" />
+                  <Font name="Arial" size="24.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label fx:id="lblTimeMin" alignment="CENTER" layoutX="972.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="28" textAlignment="CENTER">
+            <Label fx:id="lblTimeSec" alignment="CENTER" contentDisplay="CENTER" layoutX="1018.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" styleClass="timePane" stylesheets="@../assets/styles/dashboard_form.css" text=" 00" textAlignment="CENTER" textFill="#09832c">
                <font>
-                  <Font name="Agency FB Bold" size="47.0" />
+                  <Font name="Arial" size="24.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label alignment="CENTER" layoutX="998.0" layoutY="-2.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text=":" textAlignment="CENTER">
+            <Label fx:id="lblTimeMin" alignment="CENTER" layoutX="973.0" layoutY="23.0" prefHeight="46.0" prefWidth="37.0" styleClass="timePane" stylesheets="@../assets/styles/dashboard_form.css" text=" 00" textAlignment="CENTER" textFill="#09832c">
                <font>
-                  <Font name="Agency FB Bold" size="47.0" />
+                  <Font name="Arial" size="24.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label alignment="CENTER" layoutX="945.0" layoutY="-2.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text=":" textAlignment="CENTER">
+            <Label layoutX="966.0" layoutY="24.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
                <font>
-                  <Font name="Agency FB Bold" size="47.0" />
+                  <Font name="Arial" size="24.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label fx:id="lblDate" layoutX="934.0" layoutY="57.0" prefHeight="24.0" prefWidth="136.0" styleClass="clock-class" text="2023.09.12">
+            <Label layoutX="1009.0" layoutY="22.0" prefHeight="46.0" prefWidth="37.0" text=":" textAlignment="CENTER" textFill="#09832c">
                <font>
-                  <Font name="Copperplate Gothic Bold" size="20.0" />
+                  <Font name="Arial" size="24.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
          </children>
       </Pane>
