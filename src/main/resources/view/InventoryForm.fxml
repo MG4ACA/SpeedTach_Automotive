@@ -17,10 +17,9 @@
          <children>
             <TextField fx:id="txtSearch" layoutX="48.0" layoutY="41.0" prefHeight="35.0" prefWidth="424.0" />
             <TextField fx:id="txtCode" layoutX="48.0" layoutY="122.0" prefHeight="35.0" prefWidth="257.0" />
+            <TextField fx:id="txtName" layoutX="336.0" layoutY="122.0" prefHeight="35.0" prefWidth="257.0" />
+            <DatePicker fx:id="datePicker" layoutX="627.0" layoutY="122.0" prefHeight="35.0" prefWidth="203.0" />
             <TextField fx:id="txtDescription" layoutX="48.0" layoutY="192.0" prefHeight="73.0" prefWidth="782.0" />
-            <Text layoutX="337.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name" wrappingWidth="191.73672485351562" />
-            <Text layoutX="49.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Description" wrappingWidth="191.73672485351562" />
-            <Text layoutX="50.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Code" wrappingWidth="191.73672485351562" />
             <Button layoutX="627.0" layoutY="274.0" mnemonicParsing="false" onAction="#saveProductOnClick" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Save Product">
                <font>
                   <Font name="System Italic" size="4.0" />
@@ -29,18 +28,20 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TableView fx:id="tblProductDetails" layoutX="16.0" layoutY="313.0" prefHeight="267.0" prefWidth="844.0">
+            <Text layoutX="337.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name" wrappingWidth="191.73672485351562" />
+            <Text layoutX="49.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Description" wrappingWidth="191.73672485351562" />
+            <Text layoutX="50.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Code" wrappingWidth="191.73672485351562" />
+            <TableView fx:id="tblProductDetails" layoutX="16.0" layoutY="313.0" prefHeight="267.0" prefWidth="838.0">
               <columns>
-                <TableColumn prefWidth="104.79998779296875" text="Product Code " />
-                <TableColumn prefWidth="167.99996948242188" text="Product Name" />
-                  <TableColumn prefWidth="205.5999755859375" text="Initial Date" />
-                  <TableColumn prefWidth="368.79998779296875" text="Product Description" />
+                <TableColumn fx:id="colProductCode" prefWidth="104.79998779296875" text="Product Code " />
+                <TableColumn fx:id="colName" prefWidth="199.99996948242188" text="Product Name" />
+                  <TableColumn fx:id="colDate" prefWidth="129.60003662109375" text="Initial Date" />
+                  <TableColumn fx:id="colDescription" prefWidth="314.4000244140625" text="Product Description" />
+                  <TableColumn fx:id="colProductCode1" maxWidth="4998.0" minWidth="8.0" prefWidth="70.5999755859375" />
               </columns>
             </TableView>
             <Text layoutX="49.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Product" wrappingWidth="191.73672485351562" />
-            <TextField fx:id="txtName" layoutX="336.0" layoutY="122.0" prefHeight="35.0" prefWidth="257.0" />
             <Text layoutX="627.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Date" wrappingWidth="191.73672485351562" />
-            <DatePicker fx:id="datePicker" layoutX="627.0" layoutY="122.0" prefHeight="35.0" prefWidth="203.0" />
          </children>
       </Pane>
    </children>
