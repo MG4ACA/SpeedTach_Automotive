@@ -52,7 +52,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnInventry" layoutX="10.0" layoutY="65.0" mnemonicParsing="false" onAction="#loadInventoryForm" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Inventory Manage">
+            <Button fx:id="btnInventry" layoutX="10.0" layoutY="65.0" mnemonicParsing="false" onAction="#loadInventoryForm" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Product Manage">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -97,6 +97,15 @@
                   </ImageView>
                </children>
             </Group>
+            <Button fx:id="btnInventry1" layoutX="11.0" layoutY="175.0" mnemonicParsing="false" onAction="#loadSupplierForm" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Supplier Manage">
+               <font>
+                  <Font name="System Italic" size="4.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Line endX="103.73335266113281" layoutX="110.0" layoutY="209.0" startX="-100.0" />
          </children>
       </Pane>
       <Pane fx:id="secondPane" layoutX="211.0" layoutY="73.0" prefHeight="594.0" prefWidth="874.0" styleClass="form_container">
