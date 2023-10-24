@@ -69,4 +69,8 @@ public class DashBoardFormController {
     public void logOutOnAction(MouseEvent mouseEvent) throws IOException {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/LoginPage.fxml")));
         mainPane.getChildren().setAll(pane);     }
+
+    public void loadSupplierForm(ActionEvent actionEvent) {
+        setUi("BatchForm", secondPane);
+    }
 }
