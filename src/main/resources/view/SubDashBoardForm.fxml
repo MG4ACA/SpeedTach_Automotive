@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.SubDashBoardFormController">
+   <children>
+      <Text layoutX="24.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi this is dashboard" wrappingWidth="141.33670043945312" />
+   </children>
+</AnchorPane>
