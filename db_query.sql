@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS customer (
 
 -- Create the product table
 CREATE TABLE IF NOT EXISTS product (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     code VARCHAR(50),
     addedDate DATETIME,
@@ -39,12 +39,12 @@ CREATE TABLE IF NOT EXISTS batch (
 CREATE TABLE IF NOT EXISTS batch_details (
     id INT AUTO_INCREMENT PRIMARY KEY,
     batch_id INT,
-    product_id INT,
+    product INT,
     status BOOLEAN,
     unit_price DECIMAL(10, 2),
     qty INT,
     FOREIGN KEY (batch_id) REFERENCES batch(batch_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id)
+    FOREIGN KEY (product) REFERENCES product(product)
 );
 
 -- Create the Invoice table
@@ -62,10 +62,10 @@ CREATE TABLE IF NOT EXISTS Invoice (
 CREATE TABLE IF NOT EXISTS Invoice_details (
     id INT AUTO_INCREMENT PRIMARY KEY,
     invoice_id INT,
-    product_id INT,
+    product INT,
     qty INT,
     selling_price DECIMAL(10, 2),
     product_total DECIMAL(10, 2),
     FOREIGN KEY (invoice_id) REFERENCES Invoice(invoice_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id)
+    FOREIGN KEY (product) REFERENCES product(product)
 );

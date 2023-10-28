@@ -66,6 +66,10 @@ public class DashBoardFormController {
         setUi("InventoryForm", secondPane);
     }
 
+    public void loadStockForm(ActionEvent actionEvent) {
+        setUi("StockManageForm", secondPane);
+    }
+
     public void logOutOnAction(MouseEvent mouseEvent) throws IOException {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/LoginPage.fxml")));
         mainPane.getChildren().setAll(pane);     }
