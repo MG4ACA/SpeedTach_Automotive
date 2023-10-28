@@ -2,13 +2,18 @@ package com.speedtech_automotive.controller;
 
 import com.speedtech_automotive.model.Product;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class InventoryFormController {
@@ -24,6 +29,8 @@ public class InventoryFormController {
     public TableColumn colName;
     public TableColumn colDate;
     public TableColumn colDescription;
+    public ListView<String> lvSearch;
+    ArrayList<Product> allProducts;
 
     public void initialize(){
         colProductCode.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -57,6 +64,7 @@ public class InventoryFormController {
         txtName.setText(dto.getName());
         txtDescription.setText(dto.getDescription());
         datePicker.setValue(dto.getAddedDate().toLocalDate());
+        txtSearch.clear();
     }
 
     private void DeleteProduct(Product param) {
@@ -127,8 +135,8 @@ public class InventoryFormController {
     private void loadProductsTable() {
         tblProductDetails.getItems().clear();
         try {
-            ArrayList<Product> all = inventoryController.getAll();
-            for (Product dto:all) {
+            allProducts = inventoryController.getAll();
+            for (Product dto:allProducts) {
                 tblProductDetails.getItems().add(
                         new Product(
                                 dto.getProduct_id(),
@@ -142,4 +150,40 @@ public class InventoryFormController {
             throw new RuntimeException(e);
         }
     }
+
+    public void onProductSearch(KeyEvent keyEvent) {
+        ArrayList<Product> tempAllProducts = allProducts;
+        ArrayList<String> productArray = new ArrayList<>();
+            for (Product product : tempAllProducts) {
+                if (product.getName().toLowerCase().contains(txtSearch.getText().toLowerCase()) || product.getCode().toLowerCase().contains(txtSearch.getText().toLowerCase())) {
+                    productArray.add(product.getProduct_id() +" - "+product.getCode()+" - "+product.getName());
+                }
+            }
+            lvSearch.getItems().clear();
+            lvSearch.getItems().addAll(productArray);
+            productArray.clear();
+    }
+
+    public void onMouseClicked(MouseEvent mouseEvent) {
+        lvSearch.setVisible(true);
+
+        ArrayList<String> productArray = new ArrayList<>();
+        for (Product product : allProducts) {
+                productArray.add(product.getProduct_id() +" - "+ product.getCode()+" - "+product.getName());
+            }
+        lvSearch.getItems().clear();
+        lvSearch.getItems().addAll(productArray);
+    }
+
+    public void onProductSearchClicked(MouseEvent mouseEvent) {
+        String[] array = lvSearch.getSelectionModel().getSelectedItem().split("-");
+        for (Product product: allProducts) {
+            if (product.getProduct_id().equals(array[0].trim())){
+                SetUpdateData(product);
+                break;
+            }
+        }
+        lvSearch.setVisible(false);
+    }
+
 }
