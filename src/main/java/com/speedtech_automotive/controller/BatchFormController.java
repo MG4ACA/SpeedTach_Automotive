@@ -1,11 +1,12 @@
 package com.speedtech_automotive.controller;
 
-import com.speedtech_automotive.model.Product;
 import com.speedtech_automotive.model.Supplier;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -27,6 +28,9 @@ public class BatchFormController {
     public TableColumn colDescription;
     public TableView tblSupplierDetails;
     public TableColumn colDate;
+    public ListView<String> lvSearch;
+    ArrayList<Supplier> allSuppliers;
+
 
     public void initialize(){
         colSupplierName.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
@@ -61,6 +65,7 @@ public class BatchFormController {
         txtSupplierName.setText(dto.getSupplierName());
         txtContact.setText(String.valueOf(dto.getContact()));
         txtDescription.setText(dto.getDescription());
+        txtSearch.clear();
     }
 
     private void DeleteSupplier(Supplier param) {
@@ -123,6 +128,7 @@ public class BatchFormController {
 
 
     private void clearInputFields() {
+        selectedSupplier = null;
         txtCompanyName.clear();
         txtSupplierName.clear();
         txtDescription.clear();
@@ -133,8 +139,8 @@ public class BatchFormController {
     private void loadSuppliersTable() {
         tblSupplierDetails.getItems().clear();
         try {
-            ArrayList<Supplier> all = batchController.getAll();
-            for (Supplier dto:all) {
+            allSuppliers = batchController.getAll();
+            for (Supplier dto:allSuppliers) {
                 tblSupplierDetails.getItems().add(
                         new Supplier(
                                 dto.getBatch_id(),
@@ -154,4 +160,38 @@ public class BatchFormController {
         clearInputFields();
     }
 
+    public void onMouseClicked(MouseEvent mouseEvent) {
+        lvSearch.setVisible(true);
+
+        ArrayList<String> supplierArray = new ArrayList<>();
+        for (Supplier supplier : allSuppliers) {
+            supplierArray.add(supplier.getBatch_id() +" - "+ supplier.getCompanyName()+" - "+supplier.getSupplierName());
+        }
+        lvSearch.getItems().clear();
+        lvSearch.getItems().addAll(supplierArray);
+    }
+
+    public void onBatchSearch(KeyEvent keyEvent) {
+        ArrayList<Supplier> tempAllSupplier = allSuppliers;
+        ArrayList<String> supplierArray = new ArrayList<>();
+        for (Supplier supplier : tempAllSupplier) {
+            if (supplier.getCompanyName().toLowerCase().contains(txtSearch.getText().toLowerCase()) || supplier.getSupplierName().toLowerCase().contains(txtSearch.getText().toLowerCase())) {
+                supplierArray.add(supplier.getBatch_id() +" - "+ supplier.getCompanyName()+" - "+supplier.getSupplierName());
+            }
+        }
+        lvSearch.getItems().clear();
+        lvSearch.getItems().addAll(supplierArray);
+        supplierArray.clear();
+    }
+
+    public void onSearchClicked(MouseEvent mouseEvent) {
+        String[] array = lvSearch.getSelectionModel().getSelectedItem().split("-");
+        for (Supplier supplier : allSuppliers) {
+            if (supplier.getBatch_id().equals(array[0].trim())){
+                SetUpdateData(supplier);
+                break;
+            }
+        }
+        lvSearch.setVisible(false);
+    }
 }
