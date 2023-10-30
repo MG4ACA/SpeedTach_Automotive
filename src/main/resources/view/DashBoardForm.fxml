@@ -156,7 +156,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
+                              <Color red="1.0" />
                            </color>
                         </Stop>
                      </stops>
@@ -177,7 +177,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
+                              <Color red="1.0" />
                            </color>
                         </Stop>
                      </stops>
@@ -198,7 +198,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
+                              <Color red="1.0" />
                            </color>
                         </Stop>
                      </stops>
@@ -219,7 +219,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
+                              <Color red="1.0" />
                            </color>
                         </Stop>
                      </stops>
@@ -240,7 +240,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
+                              <Color red="1.0" />
                            </color>
                         </Stop>
                      </stops>
@@ -261,7 +261,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color green="0.6631578803062439" blue="0.23210527002811432" />
+                              <Color red="1.0" />
                            </color>
                         </Stop>
                      </stops>

@@ -39,9 +39,8 @@ public class StockController {
                 stock.getSupplier().getBatch_id(),
                 stock.getPrice(),
                 stock.getQuantity(),
-                stock.getAddedDate(),
-                stock.getStatus()
-
+                stock.getStatus(),
+                stock.getAddedDate()
         );
     }
 
