@@ -53,4 +53,11 @@ public class InventoryController {
                 product.getProduct_id()
         );
     }
+
+
+    public Product getProductById(String productId) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = Utils.executeQuery("SELECT * FROM Product WHERE product_id=?", productId);
+        resultSet.next();
+        return new Product(resultSet.getString(1),resultSet.getString(2),resultSet.getString(3), resultSet.getString(5), resultSet.getDate(4));
+    }
 }
