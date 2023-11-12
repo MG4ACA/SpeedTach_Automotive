@@ -8,3 +8,9 @@
     -fx-font-weight: 700;
     -fx-text-fill: #942525;
 }
+
+.background-pane{
+    -fx-background-radius: 5px;
+    -fx-background-color: #a8a6a6;
+
+}

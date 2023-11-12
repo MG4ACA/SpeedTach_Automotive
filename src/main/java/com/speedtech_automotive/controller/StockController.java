@@ -1,30 +1,37 @@
 package com.speedtech_automotive.controller;
 
+import com.speedtech_automotive.model.Product;
 import com.speedtech_automotive.model.Stock;
+import com.speedtech_automotive.model.Supplier;
 import com.speedtech_automotive.utils.Utils;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StockController {
-//    public ArrayList<Stock> getAll() throws SQLException, ClassNotFoundException {
-//        ArrayList<Stock> supplierArrayList = new ArrayList<>();
-//        ResultSet resultSet = Utils.executeQuery("SELECT * FROM Batch");
-//        while (resultSet.next()){
-//            supplierArrayList.add(
-//                    new Stock(
-//                            resultSet.getString(1),
-//                            resultSet.getString(5),
-//                            resultSet.getString(4),
-//                            resultSet.getInt(6),
-//                            resultSet.getString(3),
-//                            resultSet.getDate(2)
-//                    ));
-//        }
-//        return supplierArrayList;
-//    }
+    public ArrayList<Stock> getAll() throws SQLException, ClassNotFoundException {
+        ArrayList<Stock> stocksArrayList = new ArrayList<>();
+        ResultSet resultSet = Utils.executeQuery("SELECT * FROM Stock");
+        while (resultSet.next()){
+            stocksArrayList.add(
+                    new Stock(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(8),
+                            resultSet.getString(3),
+                            resultSet.getString(9),
+                            resultSet.getBigDecimal(4),
+                            resultSet.getInt(5),
+                            resultSet.getDate(7),
+                            resultSet.getBoolean(6)
+                    ));
+        }
+        return stocksArrayList;
+    }
 
-    public boolean deleteSupplierById(String supplierId) throws SQLException, ClassNotFoundException {
-        return Utils.executeUpdate("DELETE FROM Batch WHERE batch_id=?", supplierId);
+    public boolean deleteStockById(String stockId) throws SQLException, ClassNotFoundException {
+        return Utils.executeUpdate("DELETE FROM stock WHERE stock_id=?", stockId);
     }
 
     public boolean saveStock(Stock stock) throws SQLException, ClassNotFoundException {
@@ -33,25 +40,31 @@ public class StockController {
 //            String productId = resultSet.getString(1);
 //        }
 
-        return Utils.executeUpdate("insert into Stock values(?,?,?,?,?,?,?)",
+        return Utils.executeUpdate("insert into Stock values(?,?,?,?,?,?,?,?,?)",
                 0,
-                stock.getProduct().getProduct_id(),
-                stock.getSupplier().getBatch_id(),
+                stock.getProduct_id(),
+                stock.getSupplier_id(),
                 stock.getPrice(),
                 stock.getQuantity(),
                 stock.getStatus(),
-                stock.getAddedDate()
+                stock.getAddedDate(),
+                stock.getProduct_name(),
+                stock.getCompany_name()
         );
     }
 
     public boolean updateStock(Stock stock) throws SQLException, ClassNotFoundException {
-        return Utils.executeUpdate("UPDATE Stock SET product_id=?, batch_id=?, unit_price=?, qty=?, status=?, addedDate=? WHERE stock_id=?",
-                stock.getProduct().getProduct_id(),
-                stock.getSupplier().getBatch_id(),
+        return Utils.executeUpdate("UPDATE Stock SET product_id=?, batch_id=?, unit_price=?, qty=?, status=?, addedDate=?, product_name=?, company_name=? WHERE stock_id=?",
+                stock.getProduct_id(),
+                stock.getSupplier_id(),
                 stock.getPrice(),
                 stock.getQuantity(),
                 stock.getStatus(),
-                stock.getAddedDate()
+                stock.getAddedDate(),
+                stock.getProduct_name(),
+                stock.getCompany_name(),
+                stock.getStock_id()
+
         );
     }
 }

@@ -11,7 +11,6 @@ public class Supplier {
     Date addedDate;
 
     public Supplier(String supplierName, String companyName, int contact, String description, Date addedDate) {
-        this.batch_id = batch_id;
         this.supplierName = supplierName;
         this.companyName = companyName;
         this.contact = contact;
@@ -29,6 +28,14 @@ public class Supplier {
         this.contact = contact;
         this.description = description;
         this.addedDate = addedDate;
+    }
+
+    public Supplier(String batch_id, String companyName) {
+        this.batch_id = batch_id;
+        this.companyName = companyName;
+    }
+
+    public Supplier(int anInt, String string) {
     }
 
     public String getBatch_id() {

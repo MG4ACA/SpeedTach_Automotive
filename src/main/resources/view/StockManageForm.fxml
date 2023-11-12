@@ -16,10 +16,19 @@
    <children>
       <Pane prefHeight="594.0" prefWidth="874.0" styleClass="form_container" stylesheets="@../assets/styles/inventry_form.css">
          <children>
-            <TextField fx:id="txtSearchSupplier" layoutX="49.0" layoutY="114.0" onKeyTyped="#onSearchSupplierKeyType" onMouseClicked="#onSupplierSerach" prefHeight="35.0" prefWidth="353.0" />
-            <TextField fx:id="txtPrice" layoutX="54.0" layoutY="260.0" prefHeight="35.0" prefWidth="203.0" />
-            <TextField fx:id="txtQuantity" layoutX="292.0" layoutY="260.0" prefHeight="35.0" prefWidth="192.0" />
-            <Button layoutX="716.0" layoutY="260.0" mnemonicParsing="false" onAction="#clearFieldsOnClick" prefHeight="31.0" prefWidth="122.0" styleClass="button-class" text="Clear">
+            <Pane layoutX="51.0" layoutY="83.0" prefHeight="138.0" prefWidth="371.0" styleClass="background-pane" stylesheets="@../assets/styles/stock_form.css">
+               <children>
+                  <TextField fx:id="txtSearchSupplier" layoutX="9.0" layoutY="31.0" onKeyTyped="#onSearchSupplierKeyType" onMouseClicked="#onSupplierSerach" prefHeight="32.0" prefWidth="353.0" promptText="Search by spplier name or company name" />
+                  <Text layoutX="9.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Supplier" wrappingWidth="191.73672485351562">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children></Pane>
+            <Pane layoutX="463.0" layoutY="83.0" prefHeight="138.0" prefWidth="371.0" styleClass="background-pane" stylesheets="@../assets/styles/stock_form.css" />
+            <TextField fx:id="txtPrice" layoutX="51.0" layoutY="267.0" prefHeight="32.0" prefWidth="203.0" />
+            <TextField fx:id="txtQuantity" layoutX="292.0" layoutY="267.0" prefHeight="32.0" prefWidth="192.0" />
+            <Button layoutX="716.0" layoutY="267.0" mnemonicParsing="false" onAction="#clearFieldsOnClick" prefHeight="31.0" prefWidth="122.0" styleClass="button-class" text="Clear">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -27,15 +36,15 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Text layoutX="292.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Quantity" wrappingWidth="191.73672485351562">
+            <Text layoutX="292.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Quantity" wrappingWidth="191.73672485351562">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text layoutX="54.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Price" wrappingWidth="191.73672485351562">
+            <Text layoutX="51.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Price" wrappingWidth="191.73672485351562">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <TableView fx:id="tblStockManage" layoutX="18.0" layoutY="314.0" prefHeight="249.0" prefWidth="838.0">
+            <TableView fx:id="tblStockManage" layoutX="18.0" layoutY="323.0" prefHeight="249.0" prefWidth="838.0">
               <columns>
                 <TableColumn fx:id="colCompanyName" prefWidth="222.39996337890625" text="Company Name" />
                 <TableColumn fx:id="colProductName" prefWidth="205.60003662109375" text="Product Name" />
@@ -45,8 +54,7 @@
                   <TableColumn maxWidth="132.0" minWidth="3.199951171875" prefWidth="68.0" />
               </columns>
             </TableView>
-            <Text layoutX="50.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Supplier" wrappingWidth="191.73672485351562" />
-            <Button layoutX="513.0" layoutY="260.0" mnemonicParsing="false" onAction="#saveStockOnClick" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Save Stock">
+            <Button layoutX="513.0" layoutY="267.0" mnemonicParsing="false" onAction="#saveStockOnClick" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Save Stock">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -54,25 +62,31 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Text layoutX="52.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Supplier Name" wrappingWidth="112.53671264648438">
+            <Text layoutX="59.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Supplier Name" wrappingWidth="112.53671264648438">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text fx:id="lblSupplierName" layoutX="52.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name" wrappingWidth="131.73672485351562" />
-            <Text layoutX="228.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Company Name" wrappingWidth="112.53671264648438">
+            <Text fx:id="lblSupplierName" layoutX="59.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
+            <Text layoutX="235.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Company Name" wrappingWidth="112.53671264648438">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text fx:id="lblCompanyName" layoutX="228.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name" wrappingWidth="131.73672485351562" />
-            <TextField fx:id="txtSearchProduct" layoutX="469.0" layoutY="114.0" onKeyTyped="#onSearchProductKeyType" onMouseClicked="#onProductSearch" prefHeight="35.0" prefWidth="353.0" />
-            <Text layoutX="470.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Product" wrappingWidth="191.73672485351562" />
-            <Text layoutX="471.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Name" wrappingWidth="112.53671264648438">
+            <Text fx:id="lblCompanyName" layoutX="235.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
+            <TextField fx:id="txtSearchProduct" layoutX="469.0" layoutY="114.0" onKeyTyped="#onSearchProductKeyType" onMouseClicked="#onProductSearch" prefHeight="32.0" prefWidth="353.0" promptText="Search by product name or product code " />
+            <Text layoutX="470.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Product" wrappingWidth="191.73672485351562">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Text>
-            <Text fx:id="lblProductName" layoutX="473.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" wrappingWidth="131.73672485351562" />
-            <Text layoutX="676.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Code" wrappingWidth="112.53671264648438" />
-            <Text fx:id="lblProductCode" layoutX="676.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name" wrappingWidth="131.73672485351562" />
+            <Text layoutX="471.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Name" wrappingWidth="112.53671264648438">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Text>
+            <Text fx:id="lblProductName" layoutX="473.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
+            <Text layoutX="676.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Code" wrappingWidth="112.53671264648438">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Text>
+            <Text fx:id="lblProductCode" layoutX="676.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
             <Button fx:id="btnSupplierClear" layoutX="333.0" layoutY="117.0" mnemonicParsing="false" onAction="#clearSearchSupplier" prefHeight="16.0" prefWidth="68.0" styleClass="button-class-search" stylesheets="@../assets/styles/stock_form.css" text="Clear" visible="false">
                <font>
                   <Font name="System Italic" size="4.0" />
@@ -89,8 +103,11 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="txtSearchStock" layoutX="49.0" layoutY="41.0" onKeyTyped="#onSearchStockKeyType" onMouseClicked="#onStockSearch" prefHeight="35.0" prefWidth="501.0" />
-            <Text layoutX="50.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Stock" wrappingWidth="191.73672485351562" />
+            <TextField fx:id="txtSearchStock" layoutX="49.0" layoutY="38.0" onKeyTyped="#onSearchStockKeyType" onMouseClicked="#onStockSearch" prefHeight="32.0" prefWidth="501.0" promptText="Search by product name or company name" />
+            <Text layoutX="50.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Stock" wrappingWidth="191.73672485351562">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Text>
             <ListView fx:id="lvSupplierSearch" layoutX="48.0" layoutY="149.0" onMouseClicked="#onSupplierSelected" prefHeight="173.0" prefWidth="354.0" visible="false">
                <opaqueInsets>
                   <Insets />

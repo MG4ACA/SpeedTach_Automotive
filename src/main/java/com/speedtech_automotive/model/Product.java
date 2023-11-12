@@ -16,6 +16,11 @@ public class Product {
         this.addedDate = addedDate;
     }
 
+    public Product(String product_id, String name) {
+        this.product_id = product_id;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Product{" +

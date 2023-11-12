@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class StockFormController {
     public Stock selectedStock;
@@ -31,6 +32,7 @@ public class StockFormController {
     public Button btnStockClear;
     ArrayList<Supplier> allSuppliers;
     ArrayList<Product> allProducts;
+    ArrayList<Stock> allStocks;
     public TextField txtSearchSupplier;
     public TextField txtPrice;
     public TextField txtQuantity;
@@ -55,9 +57,10 @@ public class StockFormController {
     public void initialize() throws SQLException, ClassNotFoundException {
         allSuppliers = batchController.getAll();
         allProducts = inventoryController.getAll();
+        allStocks = stockController.getAll();
 
-        colCompanyName.setCellValueFactory(new PropertyValueFactory<>("companyName"));
-        colProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        colCompanyName.setCellValueFactory(new PropertyValueFactory<>("company_name"));
+        colProductName.setCellValueFactory(new PropertyValueFactory<>("product_name"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("addedDate"));
@@ -73,7 +76,7 @@ public class StockFormController {
             });
             return new ReadOnlyObjectWrapper<>(btnDelete);
         });
-//        loadSuppliersTable();
+        loadStocksTable();
 
         tblStockManage.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedSupplierDetail) -> {
             if (selectedSupplierDetail != null) {
@@ -84,10 +87,30 @@ public class StockFormController {
 
     private void setUpdateData(Stock dto) {
         selectedStock = dto;
-//        txt.setText(dto.getCompanyName());
-//        txtSupplierName.setText(dto.getSupplierName());
-//        txtContact.setText(String.valueOf(dto.getContact()));
-//        txtDescription.setText(dto.getDescription());
+        product = loadProduct(dto.getProduct_id());
+        supplier = loadSupplier(dto.getSupplier_id());
+        lblSupplierName.setText(supplier.getSupplierName());
+        lblCompanyName.setText(supplier.getCompanyName());
+        lblProductName.setText(product.getName());
+        lblProductCode.setText(product.getCode());
+        txtPrice.setText(String.valueOf(dto.getPrice()));
+        txtQuantity.setText(String.valueOf(dto.getQuantity()));
+    }
+
+    private Product loadProduct(String productId) {
+        try {
+            return inventoryController.getProductById(productId);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Supplier loadSupplier(String supplierId) {
+        try {
+            return batchController.getBatchById(supplierId);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void setSupplierData(Supplier dto) {
@@ -103,21 +126,21 @@ public class StockFormController {
     }
 
     private void DeleteStock(Stock param) {
-//        Alert alert = new Alert(Alert.AlertType.WARNING, "Do You Won't Delete supplier "+param.getCompanyName()+" ..!", ButtonType.YES,ButtonType.NO);
-//        Optional<ButtonType> result = alert.showAndWait();
-//
-//        if (result.get().getText().equals("Yes")) {
-//            try {
-//                if (batchController.deleteSupplierById(param.getBatch_id())) {
-//                    new Alert(Alert.AlertType.INFORMATION, "Delete"+param.getCompanyName()+" ..!").show();
-//                    loadSuppliersTable();
-//                } else {
-//                    new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
-//                }
-//            } catch (SQLException | ClassNotFoundException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Do You Won't Delete stock ..!", ButtonType.YES,ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get().getText().equals("Yes")) {
+            try {
+                if (stockController.deleteStockById(param.getStock_id())) {
+                    new Alert(Alert.AlertType.INFORMATION, "Stock Deleted ..!").show();
+                    loadStocksTable();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                }
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void saveStockOnClick(ActionEvent actionEvent) {
@@ -125,28 +148,29 @@ public class StockFormController {
         int qty = Integer.parseInt(txtQuantity.getText());
         Date addedDate = Date.valueOf(LocalDate.now());
 
-
         try {
             if (selectedStock == null){
-                boolean isSaved = stockController.saveStock(new Stock(selectedProduct, selectedSupplier, price, qty, addedDate, true));
+                boolean isSaved = stockController.saveStock(new Stock(selectedProduct.getProduct_id(), selectedProduct.getName(), selectedSupplier.getBatch_id(), selectedSupplier.getCompanyName(), price, qty, addedDate, true));
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Stock added successfully..!").show();
                     clearFieldsOnClick();
-//                    loadSuppliersTable();
+                    loadStocksTable();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
                 }
             } else {
-                selectedStock.setProduct(product);
-                selectedStock.setSupplier(supplier);
-                selectedStock.setPrice(BigDecimal.valueOf(Integer.parseInt(txtPrice.getText())));
+                selectedStock.setProduct_id(selectedProduct.getProduct_id());
+                selectedStock.setSupplier_id(selectedSupplier.getBatch_id());
+                selectedStock.setProduct_name(selectedProduct.getName());
+                selectedStock.setCompany_name(selectedSupplier.getCompanyName());
+                selectedStock.setPrice(new BigDecimal(txtPrice.getText()));
                 selectedStock.setQuantity(Integer.parseInt(txtQuantity.getText()));
 
                 boolean isSaved = stockController.updateStock(selectedStock);
                 selectedStock = null;
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Stock updated successfully..!").show();
-//                    loadSuppliersTable();
+                    loadStocksTable();
                     clearFieldsOnClick();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
@@ -160,6 +184,7 @@ public class StockFormController {
 
 
     public void clearFieldsOnClick() {
+        selectedStock = null;
         txtQuantity.clear();
         txtPrice.clear();
         txtSearchProduct.clear();
@@ -169,36 +194,30 @@ public class StockFormController {
         lblProductName.setText("");
         lblSupplierName.setText("");
     }
-//
-//    private void loadSuppliersTable() {
-//        tblStockManage.getItems().clear();
-//        try {
-//            ArrayList<Stock> all = batchController.getAll();
-//            for (Stock dto:all) {
-//                tblStockManage.getItems().add(
-//                        new Stock(
-//                                dto.getBatch_id(),
-//                                dto.getSupplierName(),
-//                                dto.getCompanyName(),
-//                                dto.getContact(),
-//                                dto.getDescription(),
-//                                dto.getAddedDate()
-//                        ));
-//            }
-//        } catch (SQLException | ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
-
-    public void onSearchSupplier(KeyEvent keyEvent) {
-        System.out.println("search suppler");
+    private void loadStocksTable() {
+        tblStockManage.getItems().clear();
+        try {
+            allStocks = stockController.getAll();
+            for (Stock dto:allStocks) {
+                tblStockManage.getItems().add(
+                        new Stock(
+                                dto.getStock_id(),
+                                dto.getProduct_id(),
+                                dto.getProduct_name(),
+                                dto.getSupplier_id(),
+                                dto.getCompany_name(),
+                                dto.getPrice(),
+                                dto.getQuantity(),
+                                dto.getAddedDate(),
+                                dto.getStatus()
+                        ));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void onSearchProduct(KeyEvent keyEvent) {
-        System.out.println("search product");
-
-    }
 
     public void onProductSearch(MouseEvent keyEvent) {
         lvProductSearch.setVisible(true);
@@ -286,15 +305,40 @@ public class StockFormController {
     }
 
     public void onSearchStockKeyType(KeyEvent keyEvent) {
-
+        ArrayList<Stock> tempAllStocks = allStocks;
+        ArrayList<String> stockArray = new ArrayList<>();
+        for (Stock stock : tempAllStocks) {
+            if (stock.getCompany_name().toLowerCase().contains(txtSearchStock.getText().toLowerCase()) || stock.getProduct_name().toLowerCase().contains(txtSearchStock.getText().toLowerCase())) {
+                stockArray.add(stock.getStock_id() + "- " + stock.getProduct_name() +" - "+ stock.getCompany_name()+" - "+ stock.getAddedDate());
+            }
+        }
+        lvStockSearch.getItems().clear();
+        lvStockSearch.getItems().addAll(stockArray);
+        stockArray.clear();
     }
 
     public void onStockSelected(MouseEvent mouseEvent) {
-
+        String[] array = lvStockSearch.getSelectionModel().getSelectedItem().toString().split("-");
+        for (Stock stock : allStocks) {
+            if (stock.getStock_id().equals(array[0].trim())){
+                setUpdateData(stock);
+                break;
+            }
+        }
+        lvStockSearch.setVisible(false);
+        btnStockClear.setVisible(false);
     }
 
     public void onStockSearch(MouseEvent mouseEvent) {
+        lvStockSearch.setVisible(true);
+        btnStockClear.setVisible(true);
 
+        ArrayList<String> stockArray = new ArrayList<>();
+        for (Stock stock : allStocks) {
+            stockArray.add(stock.getStock_id() + "- " + stock.getProduct_name() +" - "+ stock.getCompany_name()+" - "+ stock.getAddedDate());
+        }
+        lvStockSearch.getItems().clear();
+        lvStockSearch.getItems().addAll(stockArray);
     }
 
     public void clearSearchStock(ActionEvent actionEvent) {

@@ -12,15 +12,15 @@ public class BatchController {
     public ArrayList<Supplier> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<Supplier> supplierArrayList = new ArrayList<>();
         ResultSet resultSet = Utils.executeQuery("SELECT * FROM Batch");
-        while (resultSet.next()){
+        while (resultSet.next()) {
             supplierArrayList.add(
                     new Supplier(
                             resultSet.getString(1),
-                            resultSet.getString(5),
-                            resultSet.getString(4),
-                            resultSet.getInt(6),
+                            resultSet.getString(2),
                             resultSet.getString(3),
-                            resultSet.getDate(2)
+                            resultSet.getInt(4),
+                            resultSet.getString(5),
+                            resultSet.getDate(6)
                     ));
         }
         return supplierArrayList;
@@ -56,5 +56,11 @@ public class BatchController {
                 supplier.getBatch_id()
 
         );
+    }
+
+    public Supplier getBatchById(String supplierId) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = Utils.executeQuery("SELECT * FROM Batch WHERE batch_id=?", supplierId);
+        resultSet.next();
+        return new Supplier(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5), resultSet.getDate(6));
     }
 }
