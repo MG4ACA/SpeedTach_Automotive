@@ -38,11 +38,11 @@ public class BatchController {
 
         return Utils.executeUpdate("insert into Batch values(?,?,?,?,?,?)",
                 0,
-                supplier.getAddedDate(),
-                supplier.getDescription(),
-                supplier.getCompanyName(),
                 supplier.getSupplierName(),
-                supplier.getContact()
+                supplier.getCompanyName(),
+                supplier.getContact(),
+                supplier.getDescription(),
+                supplier.getAddedDate()
         );
     }
 
