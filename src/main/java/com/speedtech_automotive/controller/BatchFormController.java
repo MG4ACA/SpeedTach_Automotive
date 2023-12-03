@@ -50,6 +50,7 @@ public class BatchFormController {
             });
             return new ReadOnlyObjectWrapper<>(btnDelete);
         });
+        clearInputFields();
         loadSuppliersTable();
 
         tblSupplierDetails.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedSupplierDetail) -> {
