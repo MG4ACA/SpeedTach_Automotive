@@ -130,6 +130,10 @@ public class OrderFormController {
     }
 
     public void clearFieldsOnClick() {
+        clearSearchProduct();
+        txtPrice.clear();
+        txtQuantity.clear();
+        txtDiscount.clear();
     }
 
     public void addOrderDetailToTable(ActionEvent actionEvent) {
@@ -265,7 +269,6 @@ public class OrderFormController {
         lblQtyOne.setText(String.valueOf((allStocks.get(0).getQuantity())));
     }
 
-
     public  void hideAllStockLabels(){
         lblPriceOne.setVisible(false);
         lblDateOne.setVisible(false);
@@ -283,10 +286,13 @@ public class OrderFormController {
         lblThree.setVisible(false);
         lblQuantity.setVisible(false);
     }
-    public void clearSearchProduct(ActionEvent actionEvent) {
+
+    public void clearSearchProduct() {
         lvProductSearch.setVisible(false);
         btnProductClear.setVisible(false);
         hideAllStockLabels();
+        lblProductCode.setText("--");
+        lblProductName.setText("--");
     }
 
     public void clearSearchStock(ActionEvent actionEvent) {
