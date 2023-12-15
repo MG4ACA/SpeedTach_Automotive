@@ -23,7 +23,16 @@
                   <Text fx:id="lblThree" layoutX="553.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="03:" visible="false" wrappingWidth="39.736724853515625" />
                </children></Pane>
             <TextField fx:id="txtPrice" layoutX="38.0" layoutY="217.0" prefHeight="30.0" prefWidth="203.0" />
-            <TextField fx:id="txtQuantity" layoutX="279.0" layoutY="217.0" prefHeight="30.0" prefWidth="192.0" />
+            <TextField fx:id="txtDiscount" layoutX="306.0" layoutY="217.0" prefHeight="30.0" prefWidth="192.0" />
+            <TextField fx:id="txtQuantity" layoutX="559.0" layoutY="217.0" onKeyTyped="#validateQuantity" prefHeight="30.0" prefWidth="192.0" />
+            <Button fx:id="btnAddUpdateOrder" layoutX="513.0" layoutY="267.0" mnemonicParsing="false" onAction="#addOrderDetailToTable" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Add Order">
+               <font>
+                  <Font name="System Italic" size="4.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
             <Button layoutX="726.0" layoutY="267.0" mnemonicParsing="false" onAction="#clearFieldsOnClick" prefHeight="31.0" prefWidth="122.0" styleClass="button-class" text="Clear">
                <font>
                   <Font name="System Italic" size="4.0" />
@@ -32,34 +41,27 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Text layoutX="279.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Quantity" wrappingWidth="191.73672485351562">
+            <Text layoutX="559.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Product Quantity" wrappingWidth="191.73672485351562">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="38.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Selling Price" wrappingWidth="191.73672485351562">
+            <Text layoutX="38.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Selling Price" wrappingWidth="191.73672485351562">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <TableView fx:id="tblOrderedProductList" layoutX="18.0" layoutY="323.0" prefHeight="156.0" prefWidth="838.0">
+            <TableView fx:id="tblOrderedProductList" layoutX="20.0" layoutY="308.0" prefHeight="156.0" prefWidth="838.0">
                <columns>
-                  <TableColumn fx:id="colCompanyName" prefWidth="222.39996337890625" text="Company Name" />
-                  <TableColumn fx:id="colProductName" prefWidth="205.60003662109375" text="Product Name" />
-                  <TableColumn fx:id="colPrice" prefWidth="117.60003662109375" text="Product Price" />
-                  <TableColumn fx:id="colQuantity" prefWidth="104.79998779296875" text="Product Quantity" />
-                  <TableColumn fx:id="colDate" prefWidth="115.99993896484375" text="Added Date" />
-                  <TableColumn maxWidth="132.0" minWidth="3.199951171875" prefWidth="68.0" />
+                  <TableColumn fx:id="colProductName" prefWidth="281.6000175476074" text="Product Name" />
+                  <TableColumn fx:id="colProductCode" prefWidth="136.0" text="Product Code" />
+                  <TableColumn fx:id="colSellingPrice" prefWidth="90.39996337890625" text="Selling Price" />
+                  <TableColumn fx:id="colQuantity" prefWidth="68.7999267578125" text="Quantity" />
+                  <TableColumn fx:id="colDiscount" prefWidth="96.79998779296875" text="Discount" />
+                  <TableColumn fx:id="colProductTotal" maxWidth="179.199951171875" minWidth="3.199951171875" prefWidth="88.7999267578125" text="Product Total" />
+                  <TableColumn maxWidth="140.0" minWidth="3.199951171875" prefWidth="71.9998779296875" text="Action" />
                </columns>
             </TableView>
-            <Button layoutX="513.0" layoutY="267.0" mnemonicParsing="false" onAction="#addOrderDetailToTable" prefHeight="31.0" prefWidth="203.0" styleClass="button-class" text="Add Order">
-               <font>
-                  <Font name="System Italic" size="4.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
             <TextField fx:id="txtSearchProduct" layoutX="40.0" layoutY="45.0" onKeyTyped="#onSearchProductKeyType" onMouseClicked="#onProductSearch" prefHeight="30.0" prefWidth="495.0" promptText="Search by product name or product code " />
             <Text layoutX="41.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Product" wrappingWidth="191.73672485351562">
                <font>
@@ -102,8 +104,7 @@
             <Text fx:id="lblSDTwo" layoutX="698.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" visible="false" wrappingWidth="131.73672485351562" />
             <Text fx:id="lblSPThree" layoutX="608.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" visible="false" wrappingWidth="131.73672485351562" />
             <Text fx:id="lblSDThree" layoutX="699.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" visible="false" wrappingWidth="131.73672485351562" />
-            <TextField fx:id="txtDiscount" layoutX="514.0" layoutY="214.0" prefHeight="30.0" prefWidth="192.0" />
-            <Text layoutX="514.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Discount Price" wrappingWidth="191.73672485351562">
+            <Text layoutX="306.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Discount Price" wrappingWidth="191.73672485351562">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

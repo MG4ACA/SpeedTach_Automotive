@@ -4,6 +4,7 @@ import com.speedtech_automotive.model.OrderDetail;
 import com.speedtech_automotive.model.Product;
 import com.speedtech_automotive.model.ProductStockJoin;
 import com.speedtech_automotive.model.Stock;
+import com.speedtech_automotive.tm.OrderDetailTm;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -13,22 +14,25 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.ListCell;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class OrderFormController {
     public OrderDetail selectedOrderDetail;
+    public Product selectedProduct;
     public ArrayList<OrderDetail> orderDetailsList;
     public TextField txtPrice;
     public TextField txtQuantity;
-    public TableColumn colCompanyName;
     public TableColumn colProductName;
-    public TableColumn colPrice;
     public TableColumn colQuantity;
-    public TableColumn colDate;
+    public TableColumn colProductCode;
+    public TableColumn colSellingPrice;
+    public TableColumn colDiscount;
+    public TableColumn colProductTotal;
     public TableView tblOrderedProductList;
     public TextField txtSearchProduct;
     public Text lblProductName;
@@ -44,11 +48,7 @@ public class OrderFormController {
     public Text lblTotalDiscount;
     public Text lblDiscountedPrice;
     public Text lblTotalValue;
-    public Text lblDateThree;
-    public Text lblPriceThree;
-    public Text lblDateTwo;
     public Text lblDateOne;
-    public Text lblPriceTwo;
     public Text lblPriceOne;
     public Text lblQtyOne;
     public Text lblQtyTwo;
@@ -57,13 +57,17 @@ public class OrderFormController {
     public Text lblTwo;
     public Text lblThree;
     public Text lblQuantity;
+    public Button btnAddUpdateOrder;
+
 
     StockController stockController = new StockController();
     private ArrayList<Stock> allStocks;
+    private ArrayList<OrderDetailTm> orderedProductList = new ArrayList<>();
     ArrayList<Product> allProducts;
     ArrayList<ProductStockJoin> joinList;
     private final InventoryController inventoryController = new InventoryController();
     public Button btnProductClear;
+    private Boolean isOrderTableUpdate = false;
 
     public void initialize() {
         try {
@@ -72,12 +76,13 @@ public class OrderFormController {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        colCompanyName.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
-        colProductName.setCellValueFactory(new PropertyValueFactory<>("companyName"));
-        colPrice.setCellValueFactory(new PropertyValueFactory<>("contact"));
-        colQuantity.setCellValueFactory(new PropertyValueFactory<>("addedDate"));
-        colDate.setCellValueFactory(new PropertyValueFactory<>("description"));
-        TableColumn<OrderDetail, Button> lastCol = (TableColumn<OrderDetail, Button>) tblOrderedProductList.getColumns().get(5);
+        colProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        colProductCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
+        colSellingPrice.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
+        colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+        colProductTotal.setCellValueFactory(new PropertyValueFactory<>("productTotal"));
+        TableColumn<OrderDetailTm, Button> lastCol = (TableColumn<OrderDetailTm, Button>) tblOrderedProductList.getColumns().get(6);
 
         lastCol.setCellValueFactory(param -> {
             Button btnDelete = new Button("Delete");
@@ -94,9 +99,12 @@ public class OrderFormController {
 
         tblOrderedProductList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedOrderDetail) -> {
             if (selectedOrderDetail != null) {
-                setOrderDetailsUpdateData((OrderDetail) selectedOrderDetail);
+                isOrderTableUpdate = true;
+                btnAddUpdateOrder.setText("Update Order");
+                setOrderDetailsUpdateData((OrderDetailTm) selectedOrderDetail);
             }
         });
+
     }
 
     private void mapProductList() {
@@ -105,38 +113,99 @@ public class OrderFormController {
 
     private void loadOrderDetailsTable() {
         tblOrderedProductList.getItems().clear();
-        if (orderDetailsList != null) {
-            for (OrderDetail dto : orderDetailsList) {
-                tblOrderedProductList.getItems().add(dto);
-            }
+        if (orderedProductList != null) {
+            tblOrderedProductList.getItems().addAll(orderedProductList);
         }
-
     }
 
     private void setProductData(Product dto) {
+        selectedProduct = dto;
         lblProductName.setText(dto.getName());
         lblProductCode.setText(dto.getCode());
     }
 
-    private void setOrderDetailsUpdateData(OrderDetail dto) {
-//        txtDiscount.setText(String.valueOf(dto.get()));
-//        txtPrice.setText(String.valueOf(dto.getProductPrice()));
-//        txtQuantity.setText(String.valueOf(dto.getQuantity()));
+    private void setOrderDetailsUpdateData(OrderDetailTm dto) {
+        txtDiscount.setText(String.valueOf(dto.getDiscount()));
+        txtPrice.setText(String.valueOf(dto.getSellingPrice()));
+        txtQuantity.setText(String.valueOf(dto.getQuantity()));
+        setProductData(new Product(dto.getProduct_id(), dto.getProductCode(), dto.getProductName()));
+        loadStockDataByProductId(dto.getProduct_id());
     }
 
-    //delete order  detail from the table
-    private void deleteOrderTable(OrderDetail value) {
+    private void deleteOrderTable(OrderDetailTm param) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Do You Won't remove product "+param.getProductCode()+" from table..!",ButtonType.YES,ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
 
+        if (result.get().getText().equals("Yes")) {
+            try {
+                if (orderedProductList.remove(param)) {
+                    new Alert(Alert.AlertType.INFORMATION, "Product "+param.getProductCode()+" removed ..!").show();
+                    loadOrderDetailsTable();
+                    calculateTotals();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void clearFieldsOnClick() {
-        clearSearchProduct();
         txtPrice.clear();
         txtQuantity.clear();
         txtDiscount.clear();
+        allStocks = null;
+        txtQuantity.setStyle(null);
+        btnAddUpdateOrder.setText("Add Table");
+
+        lvProductSearch.setVisible(false);
+        btnProductClear.setVisible(false);
+        hideAllStockLabels();
+        lblProductCode.setText("--");
+        lblProductName.setText("--");
     }
 
     public void addOrderDetailToTable(ActionEvent actionEvent) {
+        BigDecimal quantity = BigDecimal.valueOf(Integer.parseInt(txtQuantity.getText()));
+        int intQuantity =Integer.parseInt(txtQuantity.getText());
+        BigDecimal price = BigDecimal.valueOf(Double.parseDouble(txtPrice.getText()));
+        BigDecimal discount = BigDecimal.valueOf(Double.parseDouble(txtDiscount.getText()));
+        OrderDetailTm orderDetailTm = new OrderDetailTm(selectedProduct.getProduct_id(), lblProductName.getText(), lblProductCode.getText(), price, intQuantity, discount, (price.subtract(discount)).multiply(quantity));
+
+        tblOrderedProductList.getItems().clear();
+        if (isOrderTableUpdate) {
+            Iterator<OrderDetailTm> iterator = orderedProductList.iterator();
+            while (iterator.hasNext()) {
+                OrderDetailTm obj = iterator.next();
+                if (obj.getProduct_id().equals(orderDetailTm.getProduct_id())) {
+                    iterator.remove();
+                }
+            }
+        }
+        orderedProductList.add(orderDetailTm);
+        tblOrderedProductList.getItems().addAll(orderedProductList);
+        clearFieldsOnClick();
+        isOrderTableUpdate = false;
+        btnAddUpdateOrder.setText("Add Order");
+        calculateTotals();
+
+    }
+
+    private void calculateTotals() {
+        BigDecimal totalPrice = new BigDecimal(0);
+        BigDecimal totalDiscount = new BigDecimal(0);
+        BigDecimal finalTotal = new BigDecimal(0);
+
+        for (OrderDetailTm orderDetailTm: orderedProductList) {
+            finalTotal = finalTotal.add(orderDetailTm.getProductTotal());
+            totalPrice = totalPrice.add(orderDetailTm.getSellingPrice().multiply(BigDecimal.valueOf(orderDetailTm.getQuantity())));
+        }
+        totalDiscount = totalPrice.subtract(finalTotal);
+
+        lblTotalValue.setText(totalPrice.toString());
+        lblTotalDiscount.setText(totalDiscount.toString());
+        lblDiscountedPrice.setText(finalTotal.toString());
     }
 
     public void onSearchProductKeyType(KeyEvent keyEvent) {
@@ -196,27 +265,40 @@ public class OrderFormController {
             throw new RuntimeException(e);
         }
     }
+
     private boolean checkQuantityAvailability(String value) {
         String quantityString = value.replaceAll(".*quantity - (\\d+).*", "$1");
         int quantity = Integer.parseInt(quantityString);
         return quantity > 0 ? false:true ;
     }
+
     public void onProductSelected() {
         String[] array = lvProductSearch.getSelectionModel().getSelectedItem().toString().split("-");
+        String productId = array[0].trim();
+
+        for (OrderDetailTm orderDetailTm: orderedProductList) {
+            if (orderDetailTm.getProduct_id().equals(productId)) {
+                new Alert(Alert.AlertType.WARNING, "Product already added to table, update it..!").show();
+                return;
+            }
+        }
+
         for (Product product: allProducts) {
-            if (product.getProduct_id().equals(array[0].trim())){
+            if (product.getProduct_id().equals(productId)){
                 setProductData(product);
-                loadStockData(product);
+
+                loadStockDataByProductId(product.getProduct_id());
                 break;
             }
         }
         lvProductSearch.setVisible(false);
         btnProductClear.setVisible(false);
+        txtPrice.requestFocus();
     }
 
-    private void loadStockData(Product product) {
+    private void loadStockDataByProductId(String productId) {
         try {
-            allStocks = stockController.getByProductId(product.getProduct_id());
+            allStocks = stockController.getByProductId(productId);
             enableStockLabels();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -288,11 +370,7 @@ public class OrderFormController {
     }
 
     public void clearSearchProduct() {
-        lvProductSearch.setVisible(false);
-        btnProductClear.setVisible(false);
-        hideAllStockLabels();
-        lblProductCode.setText("--");
-        lblProductName.setText("--");
+        clearFieldsOnClick();
     }
 
     public void clearSearchStock(ActionEvent actionEvent) {
@@ -305,4 +383,17 @@ public class OrderFormController {
     public void placeOrder(ActionEvent actionEvent) {
     }
 
+    public void validateQuantity(KeyEvent keyEvent) {
+        if (allStocks != null && !txtQuantity.getText().equals("") && Pattern.matches("[0-9]*", txtQuantity.getText())) {
+            int totalQty = 0;
+            for (Stock stock: allStocks) {
+                totalQty += stock.getQuantity();
+            }
+            if (Integer.parseInt(txtQuantity.getText()) > totalQty ){
+                txtQuantity.setStyle("-fx-border-color: red;");
+            } else {
+                txtQuantity.setStyle(null);
+            }
+        }
+    }
 }

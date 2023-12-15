@@ -30,6 +30,7 @@ public class DashBoardFormController {
 
     public void initialize() {
         generateRealTime();
+        setUi("OrderForm", secondPane);
     }
 
     /*-----DATE AND TIME GENERATE------*/

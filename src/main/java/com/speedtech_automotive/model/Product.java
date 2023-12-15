@@ -21,6 +21,12 @@ public class Product {
         this.name = name;
     }
 
+    public Product(String productId, String productCode, String productName) {
+        this.product_id = productId;
+        this.name = productName;
+        this.code = productCode;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
