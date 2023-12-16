@@ -69,3 +69,26 @@ CREATE TABLE IF NOT EXISTS Invoice_details (
     FOREIGN KEY (invoice_id) REFERENCES Invoice(invoice_id),
     FOREIGN KEY (product) REFERENCES product(product)
 );
+
+CREATE TABLE order_details(
+                              orderDetail_id INT AUTO_INCREMENT PRIMARY KEY,
+                              order_id       VARCHAR(50) NOT NULL,
+                              product_id     VARCHAR(50) NOT NULL,
+                              productName    VARCHAR(255),
+                              productCode    VARCHAR(50),
+                              sellingPrice   DECIMAL(10, 2),
+                              quantity       INT,
+                              discount       DECIMAL(10, 2),
+                              productTotal   DECIMAL(10, 2),
+                              FOREIGN KEY (order_id) REFERENCES orders(order_id),
+                              FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
+
+CREATE TABLE orders(
+    order_id      INT AUTO_INCREMENT PRIMARY KEY,
+    totalPrice    DECIMAL(10, 2),
+    totalDiscount DECIMAL(10, 2),
+    finalTotal    DECIMAL(10, 2),
+    addedDate     TIMESTAMP
+);
+

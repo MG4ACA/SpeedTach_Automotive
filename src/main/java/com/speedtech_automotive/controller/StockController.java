@@ -4,29 +4,15 @@ import com.speedtech_automotive.model.ProductStockJoin;
 import com.speedtech_automotive.model.Stock;
 import com.speedtech_automotive.utils.Utils;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StockController {
     public ArrayList<Stock> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<Stock> stocksArrayList = new ArrayList<>();
         ResultSet resultSet = Utils.executeQuery("SELECT * FROM Stock");
-        while (resultSet.next()){
-            stocksArrayList.add(
-                    new Stock(
-                            resultSet.getString(1),
-                            resultSet.getString(2),
-                            resultSet.getString(8),
-                            resultSet.getString(3),
-                            resultSet.getString(9),
-                            resultSet.getBigDecimal(4),
-                            resultSet.getInt(5),
-                            resultSet.getDate(7),
-                            resultSet.getBoolean(6)
-                    ));
-        }
-        return stocksArrayList;
+        return mapStocksResultSet(resultSet);
     }
 
     public boolean deleteStockById(String stockId) throws SQLException, ClassNotFoundException {
@@ -68,8 +54,32 @@ public class StockController {
     }
 
     public ArrayList<Stock> getByProductId(String productId) throws SQLException, ClassNotFoundException {
-        ArrayList<Stock> stocksArrayList = new ArrayList<>();
         ResultSet resultSet = Utils.executeQuery("SELECT * FROM Stock where product_id=? AND status=? AND qty>0", productId, true);
+        return mapStocksResultSet(resultSet);
+    }
+
+    public ArrayList<ProductStockJoin> getStockProductJoin() throws SQLException, ClassNotFoundException {
+        ArrayList<ProductStockJoin> joinList = new ArrayList<>();
+        ResultSet resultSet = Utils.executeQuery("SELECT product.*,SUM(stock.qty) AS total_qty FROM product LEFT JOIN stock ON product.product_id = stock.product_id GROUP BY product.product_id, product.name");
+        while (resultSet.next()){
+            joinList.add(
+                    new ProductStockJoin(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getInt(6)
+
+                    ));
+        }
+        return joinList;
+    }
+    public ArrayList<Stock> getAvailableStocks(String productId) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = Utils.executeQuery("SELECT * FROM Stock WHERE product_id=? AND status=? AND qty>0 ORDER BY addedDate", productId, true);
+        return mapStocksResultSet(resultSet);
+    }
+
+    private ArrayList<Stock> mapStocksResultSet(ResultSet resultSet) throws SQLException {
+        ArrayList<Stock> stocksArrayList = new ArrayList<>();
         while (resultSet.next()){
             stocksArrayList.add(
                     new Stock(
@@ -87,19 +97,7 @@ public class StockController {
         return stocksArrayList;
     }
 
-    public ArrayList<ProductStockJoin> getStockProductJoin() throws SQLException, ClassNotFoundException {
-        ArrayList<ProductStockJoin> joinList = new ArrayList<>();
-        ResultSet resultSet = Utils.executeQuery("SELECT product.*,SUM(stock.qty) AS total_qty FROM product LEFT JOIN stock ON product.product_id = stock.product_id GROUP BY product.product_id, product.name");
-        while (resultSet.next()){
-            joinList.add(
-                    new ProductStockJoin(
-                            resultSet.getString(1),
-                            resultSet.getString(2),
-                            resultSet.getString(3),
-                            resultSet.getInt(6)
-
-                    ));
-        }
-        return joinList;
+    public boolean updateStockQtyOnOder(int remainingQuantity, String productId, Date addedDate) throws SQLException, ClassNotFoundException {
+        return Utils.executeUpdate("UPDATE Stock SET qty = ? WHERE product_id = ? AND addedDate = ?", remainingQuantity, productId, addedDate);
     }
 }

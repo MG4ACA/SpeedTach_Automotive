@@ -1,9 +1,6 @@
 package com.speedtech_automotive.controller;
 
-import com.speedtech_automotive.model.OrderDetail;
-import com.speedtech_automotive.model.Product;
-import com.speedtech_automotive.model.ProductStockJoin;
-import com.speedtech_automotive.model.Stock;
+import com.speedtech_automotive.model.*;
 import com.speedtech_automotive.tm.OrderDetailTm;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
@@ -15,7 +12,9 @@ import javafx.scene.text.Text;
 import javafx.scene.control.ListCell;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
@@ -61,6 +60,7 @@ public class OrderFormController {
 
 
     StockController stockController = new StockController();
+    OrderController orderController = new OrderController();
     private ArrayList<Stock> allStocks;
     private ArrayList<OrderDetailTm> orderedProductList = new ArrayList<>();
     ArrayList<Product> allProducts;
@@ -68,6 +68,10 @@ public class OrderFormController {
     private final InventoryController inventoryController = new InventoryController();
     public Button btnProductClear;
     private Boolean isOrderTableUpdate = false;
+    ArrayList<Stock> availableStocksForAProduct = new ArrayList<>();
+    BigDecimal totalPrice = new BigDecimal(0);
+    BigDecimal totalDiscount = new BigDecimal(0);
+    BigDecimal finalTotal = new BigDecimal(0);
 
     public void initialize() {
         try {
@@ -133,13 +137,13 @@ public class OrderFormController {
     }
 
     private void deleteOrderTable(OrderDetailTm param) {
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Do You Won't remove product "+param.getProductCode()+" from table..!",ButtonType.YES,ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Do You Won't remove product " + param.getProductCode() + " from table..!", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get().getText().equals("Yes")) {
             try {
                 if (orderedProductList.remove(param)) {
-                    new Alert(Alert.AlertType.INFORMATION, "Product "+param.getProductCode()+" removed ..!").show();
+                    new Alert(Alert.AlertType.INFORMATION, "Product " + param.getProductCode() + " removed ..!").show();
                     loadOrderDetailsTable();
                     calculateTotals();
                 } else {
@@ -168,7 +172,7 @@ public class OrderFormController {
 
     public void addOrderDetailToTable(ActionEvent actionEvent) {
         BigDecimal quantity = BigDecimal.valueOf(Integer.parseInt(txtQuantity.getText()));
-        int intQuantity =Integer.parseInt(txtQuantity.getText());
+        int intQuantity = Integer.parseInt(txtQuantity.getText());
         BigDecimal price = BigDecimal.valueOf(Double.parseDouble(txtPrice.getText()));
         BigDecimal discount = BigDecimal.valueOf(Double.parseDouble(txtDiscount.getText()));
         OrderDetailTm orderDetailTm = new OrderDetailTm(selectedProduct.getProduct_id(), lblProductName.getText(), lblProductCode.getText(), price, intQuantity, discount, (price.subtract(discount)).multiply(quantity));
@@ -193,11 +197,7 @@ public class OrderFormController {
     }
 
     private void calculateTotals() {
-        BigDecimal totalPrice = new BigDecimal(0);
-        BigDecimal totalDiscount = new BigDecimal(0);
-        BigDecimal finalTotal = new BigDecimal(0);
-
-        for (OrderDetailTm orderDetailTm: orderedProductList) {
+        for (OrderDetailTm orderDetailTm : orderedProductList) {
             finalTotal = finalTotal.add(orderDetailTm.getProductTotal());
             totalPrice = totalPrice.add(orderDetailTm.getSellingPrice().multiply(BigDecimal.valueOf(orderDetailTm.getQuantity())));
         }
@@ -213,7 +213,7 @@ public class OrderFormController {
         ArrayList<String> productArray = new ArrayList<>();
         for (Product product : tempAllProducts) {
             if (product.getName().toLowerCase().contains(txtSearchProduct.getText().toLowerCase()) || product.getCode().toLowerCase().contains(txtSearchProduct.getText().toLowerCase())) {
-                productArray.add(product.getProduct_id() +" - "+product.getCode()+" - "+product.getName());
+                productArray.add(product.getProduct_id() + " - " + product.getCode() + " - " + product.getName());
             }
         }
         lvProductSearch.getItems().clear();
@@ -230,7 +230,7 @@ public class OrderFormController {
             allProducts = inventoryController.getAll();
             ArrayList<String> productArray = new ArrayList<>();
             for (ProductStockJoin product : joinList) {
-                productArray.add(product.getProductId() +" - "+ product.getCode()+" - "+product.getProductName()+"\t\t->quantity - " +product.getQty() );
+                productArray.add(product.getProductId() + " - " + product.getCode() + " - " + product.getProductName() + "\t\t->quantity - " + product.getQty());
             }
             lvProductSearch.getItems().clear();
             lvProductSearch.getItems().addAll(productArray);
@@ -269,22 +269,22 @@ public class OrderFormController {
     private boolean checkQuantityAvailability(String value) {
         String quantityString = value.replaceAll(".*quantity - (\\d+).*", "$1");
         int quantity = Integer.parseInt(quantityString);
-        return quantity > 0 ? false:true ;
+        return quantity > 0 ? false : true;
     }
 
     public void onProductSelected() {
         String[] array = lvProductSearch.getSelectionModel().getSelectedItem().toString().split("-");
         String productId = array[0].trim();
 
-        for (OrderDetailTm orderDetailTm: orderedProductList) {
+        for (OrderDetailTm orderDetailTm : orderedProductList) {
             if (orderDetailTm.getProduct_id().equals(productId)) {
                 new Alert(Alert.AlertType.WARNING, "Product already added to table, update it..!").show();
                 return;
             }
         }
 
-        for (Product product: allProducts) {
-            if (product.getProduct_id().equals(productId)){
+        for (Product product : allProducts) {
+            if (product.getProduct_id().equals(productId)) {
                 setProductData(product);
 
                 loadStockDataByProductId(product.getProduct_id());
@@ -309,12 +309,12 @@ public class OrderFormController {
         lblPriceOne.setVisible(true);
         lblDateOne.setVisible(true);
         lblQuantity.setVisible(true);
-        if (allStocks.size() == 1){
+        if (allStocks.size() == 1) {
             enableLabelSetOne();
-        } else if (allStocks.size() == 2){
+        } else if (allStocks.size() == 2) {
             enableLabelSetOne();
             enableLabelSetTwo();
-        } else if (allStocks.size() == 3){
+        } else if (allStocks.size() == 3) {
             enableLabelSetOne();
             enableLabelSetTwo();
             enableLabelSetThree();
@@ -351,7 +351,7 @@ public class OrderFormController {
         lblQtyOne.setText(String.valueOf((allStocks.get(0).getQuantity())));
     }
 
-    public  void hideAllStockLabels(){
+    public void hideAllStockLabels() {
         lblPriceOne.setVisible(false);
         lblDateOne.setVisible(false);
         lblSPOne.setVisible(false);
@@ -378,22 +378,66 @@ public class OrderFormController {
     }
 
     public void clearOrderDetailsTable(ActionEvent actionEvent) {
+        lblTotalDiscount.setText("--");
+        lblTotalValue.setText("--");
+        lblDiscountedPrice.setText("--");
+        clearFieldsOnClick();
     }
 
     public void placeOrder(ActionEvent actionEvent) {
+        Date addedDate = Date.valueOf(LocalDate.now());
+
+        try {
+            String order_id = orderController.saveOrder(new Order(totalPrice, totalDiscount, finalTotal, addedDate));
+            if (order_id != null){
+                for (OrderDetailTm orderDetailTm : orderedProductList) {
+                    availableStocksForAProduct = stockController.getAvailableStocks(orderDetailTm.getProduct_id());
+                    int remainingQuantity = availableStocksForAProduct.get(0).getQuantity() - orderDetailTm.getQuantity();
+                    updateStocksTable(orderDetailTm, remainingQuantity);
+                    orderController.saveOrderDetail(orderDetailTm, order_id);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    private void updateStocksTable(OrderDetailTm orderDetailTm, int remainingQuantity) {
+        try {
+            if (remainingQuantity >= 0) {
+                Boolean status = stockController.updateStockQtyOnOder(remainingQuantity, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
+
+            } else {
+                Boolean status = stockController.updateStockQtyOnOder(0, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
+
+                int remaining = Math.abs(remainingQuantity);
+                availableStocksForAProduct.remove(0);
+                updateStocksTable(orderDetailTm, remaining);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
     public void validateQuantity(KeyEvent keyEvent) {
         if (allStocks != null && !txtQuantity.getText().equals("") && Pattern.matches("[0-9]*", txtQuantity.getText())) {
             int totalQty = 0;
-            for (Stock stock: allStocks) {
+            for (Stock stock : allStocks) {
                 totalQty += stock.getQuantity();
             }
-            if (Integer.parseInt(txtQuantity.getText()) > totalQty ){
+            if (Integer.parseInt(txtQuantity.getText()) > totalQty) {
                 txtQuantity.setStyle("-fx-border-color: red;");
             } else {
                 txtQuantity.setStyle(null);
             }
         }
+    }
+
+
+    private void updateStockQtyOnOder() {
+
     }
 }
