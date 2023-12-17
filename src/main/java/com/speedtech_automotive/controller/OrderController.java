@@ -7,7 +7,7 @@ import com.speedtech_automotive.utils.Utils;
 import java.sql.SQLException;
 
 public class OrderController {
-    public boolean saveOrderDetail(OrderDetailTm orderDetail, String order_id) throws SQLException, ClassNotFoundException {
+    public static boolean saveOrderDetail(OrderDetailTm orderDetail, String order_id) throws SQLException, ClassNotFoundException {
         return Utils.executeUpdate("insert into order_details values(?,?,?,?,?,?,?,?,?)",
                 0,
                 order_id,

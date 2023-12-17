@@ -1,5 +1,6 @@
 package com.speedtech_automotive.controller;
 
+import com.speedtech_automotive.db.DBConnection;
 import com.speedtech_automotive.model.*;
 import com.speedtech_automotive.tm.OrderDetailTm;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -12,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.ListCell;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -197,6 +199,9 @@ public class OrderFormController {
     }
 
     private void calculateTotals() {
+        finalTotal = new BigDecimal(0);
+        totalDiscount = new BigDecimal(0);
+        totalPrice = new BigDecimal(0);
         for (OrderDetailTm orderDetailTm : orderedProductList) {
             finalTotal = finalTotal.add(orderDetailTm.getProductTotal());
             totalPrice = totalPrice.add(orderDetailTm.getSellingPrice().multiply(BigDecimal.valueOf(orderDetailTm.getQuantity())));
@@ -206,6 +211,7 @@ public class OrderFormController {
         lblTotalValue.setText(totalPrice.toString());
         lblTotalDiscount.setText(totalDiscount.toString());
         lblDiscountedPrice.setText(finalTotal.toString());
+
     }
 
     public void onSearchProductKeyType(KeyEvent keyEvent) {
@@ -221,7 +227,7 @@ public class OrderFormController {
         productArray.clear();
     }
 
-    public void onProductSearch(MouseEvent mouseEvent) {
+    public void onProductSearch() {
         hideAllStockLabels();
         lvProductSearch.setVisible(true);
         btnProductClear.setVisible(true);
@@ -377,7 +383,8 @@ public class OrderFormController {
 
     }
 
-    public void clearOrderDetailsTable(ActionEvent actionEvent) {
+    public void clearAllFields() {
+        tblOrderedProductList.getItems().clear();
         lblTotalDiscount.setText("--");
         lblTotalValue.setText("--");
         lblDiscountedPrice.setText("--");
@@ -386,39 +393,68 @@ public class OrderFormController {
 
     public void placeOrder(ActionEvent actionEvent) {
         Date addedDate = Date.valueOf(LocalDate.now());
-
+        boolean status = false;
+        Connection con = null;
         try {
+            con = DBConnection.getConnection();
+            con.setAutoCommit(false);
+
             String order_id = orderController.saveOrder(new Order(totalPrice, totalDiscount, finalTotal, addedDate));
-            if (order_id != null){
+
+            if (order_id != null) {
                 for (OrderDetailTm orderDetailTm : orderedProductList) {
                     availableStocksForAProduct = stockController.getAvailableStocks(orderDetailTm.getProduct_id());
                     int remainingQuantity = availableStocksForAProduct.get(0).getQuantity() - orderDetailTm.getQuantity();
-                    updateStocksTable(orderDetailTm, remainingQuantity);
-                    orderController.saveOrderDetail(orderDetailTm, order_id);
+                    status = updateStocksTable(orderDetailTm, remainingQuantity);
+                    if (status){
+                        status = OrderController.saveOrderDetail(orderDetailTm, order_id);
+                        if (!status) {
+                            throw new SQLException("Something went wrong..!!");
+                        }
+                    } else {
+                        throw new SQLException("Something went wrong..!!");
+                    }
                 }
+                con.commit();
+                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed").show();
+                clearAllFields();
+                joinList = stockController.getStockProductJoin();
+
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (Exception er) {
+            try {
+                assert con != null;
+                con.rollback();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
+        } finally {
+            try {
+                assert con != null;
+                con.setAutoCommit(true);
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
-    private void updateStocksTable(OrderDetailTm orderDetailTm, int remainingQuantity) {
-        try {
+    private Boolean updateStocksTable(OrderDetailTm orderDetailTm, int remainingQuantity) throws SQLException, ClassNotFoundException {
+        Boolean status = false;
             if (remainingQuantity >= 0) {
-                Boolean status = stockController.updateStockQtyOnOder(remainingQuantity, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
-
+                status = stockController.updateStockQtyOnOder(remainingQuantity, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
             } else {
-                Boolean status = stockController.updateStockQtyOnOder(0, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
-
-                int remaining = Math.abs(remainingQuantity);
+                status = stockController.updateStockQtyOnOder(0, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
                 availableStocksForAProduct.remove(0);
-                updateStocksTable(orderDetailTm, remaining);
+                remainingQuantity = Math.abs(remainingQuantity);
+                if ((availableStocksForAProduct.size() > 0)){
+                    remainingQuantity = availableStocksForAProduct.get(0).getQuantity() - remainingQuantity;
+                }
+                updateStocksTable(orderDetailTm, remainingQuantity);
             }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+            return status;
     }
 
 

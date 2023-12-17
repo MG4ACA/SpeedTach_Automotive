@@ -114,7 +114,7 @@
                   <Insets top="-5.0" />
                </opaqueInsets>
             </ListView>
-            <Button layoutX="726.0" layoutY="547.0" mnemonicParsing="false" onAction="#clearOrderDetailsTable" prefHeight="31.0" prefWidth="122.0" styleClass="button-class" text="Clear">
+            <Button layoutX="726.0" layoutY="547.0" mnemonicParsing="false" onAction="#clearAllFields" prefHeight="31.0" prefWidth="122.0" styleClass="button-class" text="Clear">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
