@@ -26,14 +26,18 @@
          <children>
             <Pane prefHeight="174.0" prefWidth="391.0" styleClass="image-container">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="223.0" layoutX="97.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="image-class">
-                     <image>
-                        <Image url="@../assets/logo.png" />
-                     </image>
-                     <effect>
-                        <Bloom threshold="1.0" />
-                     </effect>
-                  </ImageView>
+                  <Pane layoutX="97.0" layoutY="35.0" styleClass="image-class">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/logo.png" />
+                           </image>
+                           <effect>
+                              <Bloom threshold="1.0" />
+                           </effect>
+                        </ImageView>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
             <Group layoutX="69.0" layoutY="236.0">

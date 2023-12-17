@@ -45,6 +45,7 @@
     -fx-background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
     -fx-background-radius: 10px;
     -fx-background-insets: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(119, 119, 119, 0.76), 1, 0.2, 1, 1);
 }
 
 .clock-class{

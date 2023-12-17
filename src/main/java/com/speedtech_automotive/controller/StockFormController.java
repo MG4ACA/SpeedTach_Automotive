@@ -88,7 +88,9 @@ public class StockFormController {
     private void setUpdateData(Stock dto) {
         selectedStock = dto;
         product = loadProduct(dto.getProduct_id());
+        setProductData(product);
         supplier = loadSupplier(dto.getSupplier_id());
+        setSupplierData(supplier);
         lblSupplierName.setText(supplier.getSupplierName());
         lblCompanyName.setText(supplier.getCompanyName());
         lblProductName.setText(product.getName());

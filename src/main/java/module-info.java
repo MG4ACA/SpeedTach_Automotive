@@ -12,5 +12,6 @@ module com.speedtech_automotive {
     exports com.speedtech_automotive.utils;
     opens com.speedtech_automotive.utils to javafx.fxml;
     opens com.speedtech_automotive.model to javafx.base;
+    opens com.speedtech_automotive.tm to javafx.base;
 
 }
