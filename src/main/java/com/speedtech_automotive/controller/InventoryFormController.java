@@ -2,18 +2,14 @@ package com.speedtech_automotive.controller;
 
 import com.speedtech_automotive.model.Product;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 public class InventoryFormController {
@@ -30,6 +26,7 @@ public class InventoryFormController {
     public TableColumn colDate;
     public TableColumn colDescription;
     public ListView<String> lvSearch;
+    public Button btnProductClear;
     ArrayList<Product> allProducts;
 
     public void initialize(){
@@ -151,7 +148,7 @@ public class InventoryFormController {
         }
     }
 
-    public void onProductSearch(KeyEvent keyEvent) {
+    public void onProductSearch() {
         ArrayList<Product> tempAllProducts = allProducts;
         ArrayList<String> productArray = new ArrayList<>();
             for (Product product : tempAllProducts) {
@@ -166,6 +163,7 @@ public class InventoryFormController {
 
     public void onMouseClicked(MouseEvent mouseEvent) {
         lvSearch.setVisible(true);
+        btnProductClear.setVisible(true);
 
         ArrayList<String> productArray = new ArrayList<>();
         for (Product product : allProducts) {
@@ -184,6 +182,17 @@ public class InventoryFormController {
             }
         }
         lvSearch.setVisible(false);
+        btnProductClear.setVisible(false);
     }
 
+    public void clearSearchProduct(ActionEvent actionEvent) {
+        txtSearch.clear();
+        onProductSearch();
+        txtSearch.requestFocus();
+    }
+
+    public void onListViewMouseExited(MouseEvent mouseEvent) {
+        lvSearch.setVisible(false);
+        btnProductClear.setVisible(false);
+    }
 }

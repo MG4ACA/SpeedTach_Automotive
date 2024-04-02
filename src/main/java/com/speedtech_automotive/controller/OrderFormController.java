@@ -376,11 +376,9 @@ public class OrderFormController {
     }
 
     public void clearSearchProduct() {
-        clearFieldsOnClick();
-    }
-
-    public void clearSearchStock(ActionEvent actionEvent) {
-
+        txtSearchProduct.clear();
+        onProductSearch();
+        txtSearchProduct.requestFocus();
     }
 
     public void clearAllFields() {
@@ -472,8 +470,8 @@ public class OrderFormController {
         }
     }
 
-
-    private void updateStockQtyOnOder() {
-
+    public void onListViewMouseExited(MouseEvent mouseEvent) {
+        lvProductSearch.setVisible(false);
+        btnProductClear.setVisible(false);
     }
 }

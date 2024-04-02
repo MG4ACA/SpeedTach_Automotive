@@ -221,7 +221,7 @@ public class StockFormController {
     }
 
 
-    public void onProductSearch(MouseEvent keyEvent) {
+    public void onProductSearch() {
         lvProductSearch.setVisible(true);
         btnProductClear.setVisible(true);
 
@@ -284,7 +284,7 @@ public class StockFormController {
         supplierArray.clear();
     }
 
-    public void onSupplierSerach(MouseEvent mouseEvent) {
+    public void onSupplierSearch() {
         lvSupplierSearch.setVisible(true);
         btnSupplierClear.setVisible(true);
 
@@ -294,16 +294,6 @@ public class StockFormController {
         }
         lvSupplierSearch.getItems().clear();
         lvSupplierSearch.getItems().addAll(supplierArray);
-    }
-
-    public void clearSearchProduct(ActionEvent actionEvent) {
-        lvProductSearch.setVisible(false);
-        btnProductClear.setVisible(false);
-    }
-
-    public void clearSearchSupplier(ActionEvent actionEvent) {
-        lvSupplierSearch.setVisible(false);
-        btnSupplierClear.setVisible(false);
     }
 
     public void onSearchStockKeyType(KeyEvent keyEvent) {
@@ -331,7 +321,7 @@ public class StockFormController {
         btnStockClear.setVisible(false);
     }
 
-    public void onStockSearch(MouseEvent mouseEvent) {
+    public void onStockSearch() {
         lvStockSearch.setVisible(true);
         btnStockClear.setVisible(true);
 
@@ -343,7 +333,38 @@ public class StockFormController {
         lvStockSearch.getItems().addAll(stockArray);
     }
 
+    public void clearSearchSupplier(ActionEvent actionEvent) {
+        txtSearchSupplier.clear();
+        btnSupplierClear.setVisible(false);
+        onSupplierSearch();
+        txtSearchSupplier.requestFocus();
+    }
+
     public void clearSearchStock(ActionEvent actionEvent) {
+        txtSearchStock.clear();
+        btnStockClear.setVisible(false);
+        onStockSearch();
+        txtSearchStock.requestFocus();
+    }
+
+    public void clearSearchProduct(ActionEvent actionEvent) {
+        txtSearchProduct.clear();
+        btnProductClear.setVisible(false);
+        onProductSearch();
+        txtSearchProduct.requestFocus();
+    }
+
+    public void onProductListMouseExited(MouseEvent mouseEvent) {
+        lvProductSearch.setVisible(false);
+        btnProductClear.setVisible(false);
+    }
+
+    public void onSupplierListMouseExited(MouseEvent mouseEvent) {
+        lvSupplierSearch.setVisible(false);
+        btnSupplierClear.setVisible(false);
+    }
+
+    public void onStockListMouseExited(MouseEvent mouseEvent) {
         lvStockSearch.setVisible(false);
         btnStockClear.setVisible(false);
     }

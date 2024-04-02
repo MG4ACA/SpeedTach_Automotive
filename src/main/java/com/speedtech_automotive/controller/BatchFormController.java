@@ -5,7 +5,6 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.sql.Date;
@@ -29,6 +28,7 @@ public class BatchFormController {
     public TableView tblSupplierDetails;
     public TableColumn colDate;
     public ListView<String> lvSearch;
+    public Button btnSupplierClear;
     ArrayList<Supplier> allSuppliers;
 
 
@@ -163,6 +163,7 @@ public class BatchFormController {
 
     public void onMouseClicked(MouseEvent mouseEvent) {
         lvSearch.setVisible(true);
+        btnSupplierClear.setVisible(true);
 
         ArrayList<String> supplierArray = new ArrayList<>();
         for (Supplier supplier : allSuppliers) {
@@ -172,7 +173,7 @@ public class BatchFormController {
         lvSearch.getItems().addAll(supplierArray);
     }
 
-    public void onBatchSearch(KeyEvent keyEvent) {
+    public void onBatchSearch() {
         ArrayList<Supplier> tempAllSupplier = allSuppliers;
         ArrayList<String> supplierArray = new ArrayList<>();
         for (Supplier supplier : tempAllSupplier) {
@@ -194,5 +195,17 @@ public class BatchFormController {
             }
         }
         lvSearch.setVisible(false);
+        btnSupplierClear.setVisible(false);
+    }
+
+    public void onListViewMouseExited(MouseEvent mouseEvent) {
+        lvSearch.setVisible(false);
+        btnSupplierClear.setVisible(false);
+    }
+
+    public void clearSearchSupplier(ActionEvent actionEvent) {
+        txtSearch.clear();
+        onBatchSearch();
+        txtSearch.requestFocus();
     }
 }
