@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="1077.0" stylesheets="@../assets/styles/login_form.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.LoginPageController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0" prefWidth="1077.0" stylesheets="@../assets/styles/login_form.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.LoginPageController">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1199.0" layoutX="-115.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" styleClass="main-container">
+      <ImageView fitHeight="823.0" fitWidth="1092.0" layoutX="-4.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" styleClass="main-container">
          <image>
             <Image url="@../assets/login_form/background_image.jpg" />
          </image>
