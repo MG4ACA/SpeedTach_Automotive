@@ -3,12 +3,14 @@ package com.speedtech_automotive.controller;
 import com.speedtech_automotive.db.DBConnection;
 import com.speedtech_automotive.model.*;
 import com.speedtech_automotive.tm.OrderDetailTm;
+import com.speedtech_automotive.utils.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.control.ListCell;
 
@@ -59,7 +61,6 @@ public class OrderFormController {
     public Text lblThree;
     public Text lblQuantity;
     public Button btnAddUpdateOrder;
-
 
     StockController stockController = new StockController();
     OrderController orderController = new OrderController();
@@ -473,5 +474,9 @@ public class OrderFormController {
     public void onListViewMouseExited(MouseEvent mouseEvent) {
         lvProductSearch.setVisible(false);
         btnProductClear.setVisible(false);
+    }
+
+    public void viewOrderDetails(ActionEvent actionEvent) {
+        Utils.setUi("OrderDetailsForm");
     }
 }

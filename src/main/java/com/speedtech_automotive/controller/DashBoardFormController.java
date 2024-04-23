@@ -1,5 +1,6 @@
 package com.speedtech_automotive.controller;
 
+import com.speedtech_automotive.utils.Utils;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,8 +17,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static com.speedtech_automotive.utils.Utils.setUi;
-
 public class DashBoardFormController {
 
     public Pane paneTimer;
@@ -29,8 +28,9 @@ public class DashBoardFormController {
     public Pane mainPane;
 
     public void initialize() {
+        Utils.setSecondPane(secondPane);
         generateRealTime();
-        setUi("OrderForm", secondPane);
+        Utils.setUi("OrderForm");
     }
 
     /*-----DATE AND TIME GENERATE------*/
@@ -52,23 +52,23 @@ public class DashBoardFormController {
     }
 
     public void loadOrderForm(ActionEvent actionEvent) {
-        setUi("OrderForm", secondPane);
+        Utils.setUi("OrderForm");
     }
 
     public void loadReportsForm(ActionEvent actionEvent) {
-        setUi("ReportForm",secondPane);
+        Utils.setUi("ReportForm");
     }
 
     public void loadDashBoardForm(ActionEvent actionEvent) {
-        setUi("SubDashBoardForm",secondPane);
+        Utils.setUi("SubDashBoardForm");
     }
 
     public void loadInventoryForm(ActionEvent actionEvent) {
-        setUi("InventoryForm", secondPane);
+        Utils.setUi("InventoryForm");
     }
 
     public void loadStockForm(ActionEvent actionEvent) {
-        setUi("StockManageForm", secondPane);
+        Utils.setUi("StockManageForm");
     }
 
     public void logOutOnAction(MouseEvent mouseEvent) throws IOException {
@@ -76,6 +76,6 @@ public class DashBoardFormController {
         mainPane.getChildren().setAll(pane);     }
 
     public void loadSupplierForm(ActionEvent actionEvent) {
-        setUi("BatchForm", secondPane);
+        Utils.setUi("BatchForm");
     }
 }
