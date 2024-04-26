@@ -10,6 +10,11 @@ import java.sql.*;
 import java.util.Objects;
 
 public class Utils {
+    private static Pane secondPane;
+
+    public static void setSecondPane(Pane pane) {
+        secondPane = pane;
+    }
 
     private static PreparedStatement getPreparedStatement(String sql, Object... args) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getConnection();
@@ -46,10 +51,10 @@ public class Utils {
         return getPreparedStatement(sql,args).executeQuery();
     }
 
-    public static void setUi(String url, Pane impPane){
+    public static void setUi(String url){
         try {
             Pane pane = FXMLLoader.load(Objects.requireNonNull(Utils.class.getResource("/view/" + url + ".fxml")));
-            impPane.getChildren().setAll(pane);
+            secondPane.getChildren().setAll(pane);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
