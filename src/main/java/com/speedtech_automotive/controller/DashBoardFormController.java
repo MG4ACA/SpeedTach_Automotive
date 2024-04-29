@@ -78,4 +78,6 @@ public class DashBoardFormController {
     public void loadSupplierForm(ActionEvent actionEvent) {
         Utils.setUi("BatchForm");
     }
+
+    public void loadCustomerForm(ActionEvent actionEvent) { Utils.setUi("CustomerForm"); }
 }
