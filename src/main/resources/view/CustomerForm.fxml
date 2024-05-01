@@ -16,25 +16,25 @@
    <children>
       <Pane prefHeight="594.0" prefWidth="874.0" styleClass="form_container">
          <children>
-            <TextField fx:id="txtSearchCustomer" layoutX="48.0" layoutY="41.0" onKeyTyped="#onCustomerSearch" onMouseClicked="#onMouseClicked" prefHeight="35.0" prefWidth="424.0" promptText="Search by Customer Name or NIC" />
+            <TextField fx:id="txtSearchCustomer" layoutX="48.0" layoutY="41.0" onKeyTyped="#onCustomerSearch" onMouseClicked="#onMouseClicked" prefHeight="35.0" prefWidth="424.0" promptText="Search by Customer Name, NIC or Number Plate" />
             <TextField fx:id="txtCustomerName" layoutX="48.0" layoutY="122.0" prefHeight="35.0" prefWidth="212.0" />
             <TextField fx:id="txtCustomerNIC" layoutX="328.0" layoutY="122.0" prefHeight="35.0" prefWidth="212.0" />
-            <TextField fx:id="txtAddress" layoutX="48.0" layoutY="188.0" prefHeight="49.0" prefWidth="782.0" />
+            <TextField fx:id="txtAddress" layoutX="329.0" layoutY="188.0" prefHeight="49.0" prefWidth="501.0" />
             <Text layoutX="329.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer NIC" wrappingWidth="191.73672485351562" />
-            <Text layoutX="49.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" wrappingWidth="191.73672485351562" />
+            <Text layoutX="330.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" wrappingWidth="191.73672485351562" />
             <Text layoutX="50.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" wrappingWidth="191.73672485351562" />
             <TableView fx:id="tblCustomerDetails" layoutX="16.0" layoutY="313.0" prefHeight="267.0" prefWidth="838.0">
               <columns>
                 <TableColumn fx:id="colCustomerName" prefWidth="157.60000610351562" text="Customer Name" />
-                <TableColumn fx:id="colCustomerNIC" prefWidth="147.19998168945312" text="Customer NIC" />
-                  <TableColumn fx:id="colNumber" prefWidth="176.79998779296875" text="Contact Number" />
-                  <TableColumn fx:id="colAddress" prefWidth="268.79998779296875" text="Address" />
-                  <TableColumn fx:id="colProductCode1" maxWidth="4998.0" minWidth="8.0" prefWidth="70.5999755859375" />
+                <TableColumn fx:id="colCustomerNIC" prefWidth="132.00006103515625" text="Customer NIC" />
+                  <TableColumn fx:id="colNumber" prefWidth="157.60003662109375" text="Contact Number" />
+                  <TableColumn fx:id="colNumberPlate" prefWidth="135.199951171875" text="Number Plate" />
+                  <TableColumn fx:id="colAddress" maxWidth="4998.0" minWidth="8.0" prefWidth="164.800048828125" text="Address" />
+                  <TableColumn fx:id="colAction" maxWidth="2000.0" prefWidth="84.0" />
               </columns>
             </TableView>
             <Text layoutX="49.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Customer" wrappingWidth="191.73672485351562" />
-            <ListView fx:id="lvSearch" layoutX="48.0" layoutY="77.0" onMouseClicked="#onCustomerSearchClicked" onMouseExited="#onListViewMouseExited" prefHeight="218.0" prefWidth="424.0" visible="false" />
-            <Button fx:id="btnProductClear" layoutX="402.0" layoutY="43.0" mnemonicParsing="false" onAction="#clearSearchCustomer" prefHeight="16.0" prefWidth="68.0" styleClass="button-class-search" stylesheets="@../assets/styles/stock_form.css" text="Clear" visible="false">
+            <Button fx:id="btnCustomerClear" layoutX="402.0" layoutY="43.0" mnemonicParsing="false" onAction="#clearFieldsOnClick" prefHeight="16.0" prefWidth="68.0" styleClass="button-class-search" stylesheets="@../assets/styles/stock_form.css" text="Clear" visible="false">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -44,6 +44,9 @@
             </Button>
             <TextField fx:id="txtContactNumber" layoutX="618.0" layoutY="119.0" prefHeight="35.0" prefWidth="212.0" />
             <Text layoutX="619.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Number" wrappingWidth="191.73672485351562" />
+            <TextField fx:id="txtNumberPlate" layoutX="48.0" layoutY="190.0" prefHeight="35.0" prefWidth="212.0" />
+            <Text layoutX="50.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number Plate" wrappingWidth="191.73672485351562" />
+            <ListView fx:id="lvSearch" layoutX="48.0" layoutY="77.0" onMouseClicked="#onCustomerSearchClicked" onMouseExited="#onListViewMouseExited" prefHeight="218.0" prefWidth="424.0" visible="false" />
          </children>
          <stylesheets>
             <URL value="@../assets/styles/inventry_form.css" />
