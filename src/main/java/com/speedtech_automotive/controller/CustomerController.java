@@ -35,7 +35,7 @@ public class CustomerController {
 //            String productId = resultSet.getString(1);
 //        }
 
-        return Utils.executeUpdate("insert into Customer values(?,?,?,?,?)",
+        return Utils.executeUpdate("insert into Customer values(?,?,?,?,?,?)",
                 0,
                 customer.getName(),
                 customer.getContact(),

@@ -19,6 +19,8 @@
             <TextField fx:id="txtSearchCustomer" layoutX="48.0" layoutY="41.0" onKeyTyped="#onCustomerSearch" onMouseClicked="#onMouseClicked" prefHeight="35.0" prefWidth="424.0" promptText="Search by Customer Name, NIC or Number Plate" />
             <TextField fx:id="txtCustomerName" layoutX="48.0" layoutY="122.0" prefHeight="35.0" prefWidth="212.0" />
             <TextField fx:id="txtCustomerNIC" layoutX="328.0" layoutY="122.0" prefHeight="35.0" prefWidth="212.0" />
+            <TextField fx:id="txtContactNumber" layoutX="618.0" layoutY="119.0" prefHeight="35.0" prefWidth="212.0" />
+            <TextField fx:id="txtNumberPlate" layoutX="48.0" layoutY="190.0" prefHeight="35.0" prefWidth="212.0" />
             <TextField fx:id="txtAddress" layoutX="329.0" layoutY="188.0" prefHeight="49.0" prefWidth="501.0" />
             <Text layoutX="329.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer NIC" wrappingWidth="191.73672485351562" />
             <Text layoutX="330.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" wrappingWidth="191.73672485351562" />
@@ -42,9 +44,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="txtContactNumber" layoutX="618.0" layoutY="119.0" prefHeight="35.0" prefWidth="212.0" />
             <Text layoutX="619.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Number" wrappingWidth="191.73672485351562" />
-            <TextField fx:id="txtNumberPlate" layoutX="48.0" layoutY="190.0" prefHeight="35.0" prefWidth="212.0" />
             <Text layoutX="50.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number Plate" wrappingWidth="191.73672485351562" />
             <ListView fx:id="lvSearch" layoutX="48.0" layoutY="77.0" onMouseClicked="#onCustomerSearchClicked" onMouseExited="#onListViewMouseExited" prefHeight="218.0" prefWidth="424.0" visible="false" />
          </children>

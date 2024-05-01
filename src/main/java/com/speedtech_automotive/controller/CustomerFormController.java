@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class CustomerFormController {
-    public TextField txtSearch;
+    public TextField txtSearchCustomer;
     public TextField txtCustomerName;
     public TextField txtCustomerNIC;
     public TextField txtAddress;
@@ -67,7 +67,7 @@ public class CustomerFormController {
         txtCustomerNIC.setText(dto.getCustomer_nic());
         txtAddress.setText(dto.getAddress());
         txtNumberPlate.setText(dto.getNumber_plate());
-        txtSearch.clear();
+        txtSearchCustomer.clear();
     }
 
     private void loadCustomerTable() {
@@ -111,7 +111,7 @@ public class CustomerFormController {
 
     public void clearFieldsOnClick(ActionEvent actionEvent) {
         clearInputFields();
-        txtSearch.clear();
+        txtSearchCustomer.clear();
     }
 
     public void addCustomerDetails(ActionEvent actionEvent) {
@@ -132,6 +132,11 @@ public class CustomerFormController {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
                 }
             } else {
+                selectedCustomer.setName(customerName);
+                selectedCustomer.setContact(contact);
+                selectedCustomer.setNumber_plate(numberPlate);
+                selectedCustomer.setAddress(address);
+                selectedCustomer.setCustomer_nic(cusNIC);
                 boolean isSaved = customerController.updateCustomer(selectedCustomer);
                 selectedCustomer = null;
                 if (isSaved) {
@@ -175,7 +180,7 @@ public class CustomerFormController {
     public void onCustomerSearch(KeyEvent keyEvent) {
         ArrayList<Customer> tempAllCustomers = allCustomers;
         ArrayList<String> customerArray = new ArrayList<>();
-        String searchFieldText = txtSearch.getText().toLowerCase();
+        String searchFieldText = txtSearchCustomer.getText().toLowerCase();
         for (Customer customer : tempAllCustomers) {
             if (customer.getName().toLowerCase().contains(searchFieldText) ||
                     customer.getCustomer_nic().toLowerCase().contains(searchFieldText) ||
