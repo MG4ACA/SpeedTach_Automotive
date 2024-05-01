@@ -1,0 +1,20 @@
+order details first table need to add it to search list to select thats good ui practice rather than using two tables
+do order table need a separate column with customer details for order verification in order details first table
+do we add functionality update delete order or order details
+
+
+ADD FUNCTIONALITY TO CLEAR PRODUCT INPUT FIELDS
+IN OPDER FORM -> PRODUCT FORM NEEDS SOME ALIGNMENTS
+ENCRIPT USER DETAILS
+ADD DATE FILTER TO ORDER DETAILS MANAGE FORM
+BY DEFAULT LOAD ORDER DETAILS TO THE ORDERFORM PAGE ORDERS TABLE
+
+UPDATE ORDER DETAILS -> ADMIN PRIVILAGES ENABLE JUST FROM DB LEVEL, NO NEED TO ADMIN MANAGE.
+ JUST ADD A POPUP WHEN UPDATING ORDER DETAILS
+
+errors
+need to clear the array used in order from product list after adding the order
+
+
+UI Changes
+    In product form bold titles
