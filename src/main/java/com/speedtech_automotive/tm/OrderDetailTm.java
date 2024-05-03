@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public class OrderDetailTm {
     String product_id;
+    String customer_id;
+    String customerName;
     String productName;
     String productCode;
     BigDecimal sellingPrice;
@@ -22,14 +24,32 @@ public class OrderDetailTm {
         this.productTotal = productTotal;
     }
 
-    public OrderDetailTm(String product_id, String productNameText, String productCodeText, BigDecimal sellingPrice, int quantity, BigDecimal discount, BigDecimal productTotal) {
+    public OrderDetailTm(String product_id, String customerId, String customerName, String productNameText, String productCodeText, BigDecimal sellingPrice, int quantity, BigDecimal discount, BigDecimal productTotal) {
         this.product_id = product_id;
+        this.customer_id = customerId;
+        this.customerName = customerName;
         this.productName = productNameText;
         this.productCode = productCodeText;
         this.sellingPrice = sellingPrice;
         this.quantity = quantity;
         this.discount = discount;
         this.productTotal = productTotal;
+    }
+
+    public String getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getProduct_id() {
