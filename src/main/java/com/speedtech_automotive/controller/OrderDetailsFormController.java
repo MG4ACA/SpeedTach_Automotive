@@ -6,15 +6,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class OrderDetailsFormController {
-    public void onSearchProductKeyType(KeyEvent keyEvent) {
-    }
-
-    public void onProductSearch(MouseEvent mouseEvent) {
-    }
-
-    public void clearSearchProduct(ActionEvent actionEvent) {
-    }
-
     public void onListViewMouseExited(MouseEvent mouseEvent) {
     }
 
@@ -23,5 +14,32 @@ public class OrderDetailsFormController {
 
     public void onBackToOrderForm(ActionEvent actionEvent) {
         Utils.setUi("OrderForm");
+    }
+
+    public void onSearchCustomerKeyType(KeyEvent keyEvent) {
+    }
+
+    public void clearSearchCustomer(ActionEvent actionEvent) {
+    }
+
+    public void onFilterByDate(ActionEvent actionEvent) {
+    }
+
+    public void validateQuantity(KeyEvent keyEvent) {
+    }
+
+    public void addOrderDetailToTable(ActionEvent actionEvent) {
+    }
+
+    public void clearFieldsOnClick(ActionEvent actionEvent) {
+    }
+
+    public void onCustomerSearch(MouseEvent mouseEvent) {
+    }
+
+    public void placeOrder(ActionEvent actionEvent) {
+    }
+
+    public void onListViewMouseClick(MouseEvent mouseEvent) {
     }
 }
