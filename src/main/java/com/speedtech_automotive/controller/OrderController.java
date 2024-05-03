@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class OrderController {
     public static boolean saveOrderDetail(OrderDetailTm orderDetail, String order_id) throws SQLException, ClassNotFoundException {
-        return Utils.executeUpdate("insert into order_details values(?,?,?,?,?,?,?,?,?)",
+        return Utils.executeUpdate("insert into order_details values(?,?,?,?,?,?,?,?,?,?,?)",
                 0,
                 order_id,
                 orderDetail.getProduct_id(),
@@ -17,7 +17,9 @@ public class OrderController {
                 orderDetail.getSellingPrice(),
                 orderDetail.getQuantity(),
                 orderDetail.getDiscount(),
-                orderDetail.getProductTotal()
+                orderDetail.getProductTotal(),
+                orderDetail.getCustomerName(),
+                orderDetail.getCustomer_id()
         );
     }
 

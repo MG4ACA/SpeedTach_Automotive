@@ -27,7 +27,7 @@
             <TextField fx:id="txtPrice" layoutX="38.0" layoutY="217.0" prefHeight="30.0" prefWidth="203.0" />
             <TextField fx:id="txtDiscount" layoutX="306.0" layoutY="217.0" prefHeight="30.0" prefWidth="192.0" />
             <TextField fx:id="txtQuantity" layoutX="559.0" layoutY="217.0" onKeyTyped="#validateQuantity" prefHeight="30.0" prefWidth="192.0" />
-            <Button fx:id="btnAddUpdateOrder" layoutX="513.0" layoutY="267.0" mnemonicParsing="false" onAction="#addOrderDetailToTable" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Add Order" textFill="WHITE">
+            <Button fx:id="btnAddUpdateOrder" layoutX="513.0" layoutY="274.0" mnemonicParsing="false" onAction="#addOrderDetailToTable" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Add Order" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="4.0" />
                </font>
@@ -35,7 +35,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button layoutX="726.0" layoutY="267.0" mnemonicParsing="false" onAction="#clearFieldsOnClick" prefHeight="31.0" prefWidth="122.0" styleClass="button-class-clear" text="Clear">
+            <Button layoutX="726.0" layoutY="274.0" mnemonicParsing="false" onAction="#clearFieldsOnClick" prefHeight="31.0" prefWidth="122.0" styleClass="button-class-clear" text="Clear">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
@@ -53,15 +53,16 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <TableView fx:id="tblOrderedProductList" layoutX="20.0" layoutY="308.0" prefHeight="156.0" prefWidth="838.0">
+            <TableView fx:id="tblOrderedProductList" layoutX="20.0" layoutY="325.0" prefHeight="156.0" prefWidth="838.0">
                <columns>
-                  <TableColumn fx:id="colProductName" prefWidth="281.6000175476074" text="Product Name" />
-                  <TableColumn fx:id="colProductCode" prefWidth="136.0" text="Product Code" />
-                  <TableColumn fx:id="colSellingPrice" prefWidth="90.39996337890625" text="Selling Price" />
-                  <TableColumn fx:id="colQuantity" prefWidth="68.7999267578125" text="Quantity" />
-                  <TableColumn fx:id="colDiscount" prefWidth="96.79998779296875" text="Discount" />
-                  <TableColumn fx:id="colProductTotal" maxWidth="179.199951171875" minWidth="3.199951171875" prefWidth="88.7999267578125" text="Product Total" />
-                  <TableColumn maxWidth="140.0" minWidth="3.199951171875" prefWidth="71.9998779296875" text="Action" />
+                  <TableColumn fx:id="colProductName" prefWidth="179.6666259765625" text="Product Name" />
+                  <TableColumn fx:id="colCustomerName" maxWidth="189.3333282470703" minWidth="3.199951171875" prefWidth="113.33334350585938" text="Customer Name" />
+                  <TableColumn fx:id="colProductCode" prefWidth="86.33331298828125" text="Product Code" />
+                  <TableColumn fx:id="colSellingPrice" prefWidth="92.66665649414062" text="Selling Price" />
+                  <TableColumn fx:id="colQuantity" prefWidth="77.66659545898438" text="Quantity" />
+                  <TableColumn fx:id="colDiscount" prefWidth="111.33331298828125" text="Discount" />
+                  <TableColumn fx:id="colProductTotal" maxWidth="202.33331298828125" minWidth="3.199951171875" prefWidth="91.66668701171875" text="Product Total" />
+                  <TableColumn maxWidth="182.6666259765625" minWidth="3.199951171875" prefWidth="81.0" text="Action" />
                </columns>
             </TableView>
             <TextField fx:id="txtSearchProduct" layoutX="40.0" layoutY="45.0" onKeyTyped="#onSearchProductKeyType" onMouseClicked="#onProductSearch" prefHeight="30.0" prefWidth="495.0" promptText="Search by product name or product code " />
@@ -132,24 +133,24 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Text layoutX="670.0" layoutY="491.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Total Discount" wrappingWidth="112.53671264648438">
+            <Text layoutX="670.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Total Discount" wrappingWidth="112.53671264648438">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text fx:id="lblTotalDiscount" layoutX="670.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
-            <Text layoutX="761.0" layoutY="492.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Discounted Price" wrappingWidth="112.53671264648438">
+            <Text fx:id="lblTotalDiscount" layoutX="670.0" layoutY="532.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
+            <Text layoutX="761.0" layoutY="509.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Discounted Price" wrappingWidth="112.53671264648438">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text fx:id="lblDiscountedPrice" layoutX="761.0" layoutY="516.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
-            <Text layoutX="571.0" layoutY="492.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Total" wrappingWidth="112.53671264648438">
+            <Text fx:id="lblDiscountedPrice" layoutX="761.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
+            <Text layoutX="571.0" layoutY="509.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Total" wrappingWidth="112.53671264648438">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text fx:id="lblTotalValue" layoutX="571.0" layoutY="516.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
+            <Text fx:id="lblTotalValue" layoutX="571.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
             <Text fx:id="lblQuantity" layoutX="785.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Quantity" visible="false" wrappingWidth="82.93673706054688">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -166,6 +167,27 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <TextField fx:id="txtSearchCustomer" layoutX="39.0" layoutY="276.0" onKeyTyped="#onSearchCustomerKeyType" onMouseClicked="#onCustomerSearch" prefHeight="30.0" prefWidth="449.0" promptText="Search by Customer Name, NIC or Number Plate" />
+
+
+            <Text layoutX="40.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-class" text="Search Customer" wrappingWidth="191.73672485351562">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnCustomerClear" layoutX="419.0" layoutY="277.0" mnemonicParsing="false" onAction="#clearSearchCustomer" prefHeight="16.0" prefWidth="68.0" styleClass="button-class-search" stylesheets="@../assets/styles/stock_form.css" text="Clear">
+               <font>
+                  <Font name="System Italic" size="4.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ListView fx:id="lvCustomerSearch" layoutX="39.0" layoutY="306.0" onMouseClicked="#onCustomerSearchClicked" onMouseExited="#onCustomerListViewMouseExited" prefHeight="173.0" prefWidth="449.0" visible="false">
+               <opaqueInsets>
+                  <Insets top="-5.0" />
+               </opaqueInsets>
+            </ListView>
          </children>
          <stylesheets>
             <URL value="@../assets/styles/inventry_form.css" />
