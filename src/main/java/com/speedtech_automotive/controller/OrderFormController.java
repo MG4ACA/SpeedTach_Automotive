@@ -478,5 +478,5 @@ public class OrderFormController {
 
     public void viewOrderDetails(ActionEvent actionEvent) {
         Utils.setUi("OrderDetailsForm");
-    }
+    }/**/
 }
