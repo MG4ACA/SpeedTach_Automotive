@@ -108,14 +108,14 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
-      <TableView fx:id="tblOrderedProductList1" layoutX="18.0" layoutY="326.0" prefHeight="165.0" prefWidth="838.0">
+      <TableView fx:id="tblOrderedProductList" layoutX="18.0" layoutY="326.0" prefHeight="165.0" prefWidth="838.0">
          <columns>
-            <TableColumn fx:id="colProductName1" prefWidth="209.5999813079834" text="Product Name" />
-            <TableColumn fx:id="colProductCode1" prefWidth="115.20001220703125" text="Product Code" />
-            <TableColumn fx:id="colSellingPrice1" prefWidth="143.20001220703125" text="Selling Price" />
-            <TableColumn fx:id="colQuantity1" prefWidth="99.19998168945312" text="Quantity" />
-            <TableColumn fx:id="colDiscount1" prefWidth="100.79998779296875" text="Discount" />
-            <TableColumn fx:id="colProductTotal1" maxWidth="202.33331298828125" minWidth="3.199951171875" prefWidth="100.7999267578125" text="Product Total" />
+            <TableColumn fx:id="colProductName" prefWidth="209.5999813079834" text="Product Name" />
+            <TableColumn fx:id="colProductCode" prefWidth="115.20001220703125" text="Product Code" />
+            <TableColumn fx:id="colSellingPrice" prefWidth="143.20001220703125" text="Selling Price" />
+            <TableColumn fx:id="colQuantity" prefWidth="99.19998168945312" text="Quantity" />
+            <TableColumn fx:id="colDiscount" prefWidth="100.79998779296875" text="Discount" />
+            <TableColumn fx:id="colProductTotal" maxWidth="202.33331298828125" minWidth="3.199951171875" prefWidth="100.7999267578125" text="Product Total" />
             <TableColumn maxWidth="182.6666259765625" minWidth="3.199951171875" prefWidth="70.4000244140625" text="Action" />
          </columns>
       </TableView>
