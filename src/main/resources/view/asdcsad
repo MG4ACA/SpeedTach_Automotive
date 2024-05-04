@@ -1,0 +1,143 @@
+create table if not exists batch
+(
+    batch_id     int auto_increment
+        constraint PRIMARY
+        primary key,
+    supplierName varchar(200) null,
+    companyName  varchar(200) null,
+    contact      int          null,
+    description  text         null,
+    addedDate    datetime     null
+)
+    auto_increment = 8;
+
+create table if not exists customer
+(
+    cus_id       int auto_increment
+        constraint PRIMARY
+        primary key,
+    name         varchar(255) not null,
+    contact      int(10)      null,
+    number_plate varchar(255) null
+)
+    auto_increment = 35;
+
+create table if not exists invoice
+(
+    invoice_id int auto_increment
+        constraint PRIMARY
+        primary key,
+    status     varchar(255)   null,
+    total      decimal(10, 2) null,
+    advance    decimal(10, 2) null,
+    datetime   datetime       null,
+    cus_id     int            null,
+    constraint invoice_ibfk_1
+        foreign key (cus_id) references customer (cus_id)
+)
+    auto_increment = 7;
+
+create index cus_id
+    on invoice (cus_id);
+
+create table if not exists order_details
+(
+    orderDetail_id int auto_increment
+        constraint PRIMARY
+        primary key,
+    order_id       varchar(50)    not null,
+    product_id     varchar(50)    not null,
+    productName    varchar(255)   null,
+    productCode    varchar(50)    null,
+    sellingPrice   decimal(10, 2) null,
+    quantity       int            null,
+    discount       decimal(10, 2) null,
+    productTotal   decimal(10, 2) null
+)
+    auto_increment = 30;
+
+create table if not exists orders
+(
+    order_id      int auto_increment
+        constraint PRIMARY
+        primary key,
+    totalPrice    decimal(10, 2)                      null,
+    totalDiscount decimal(10, 2)                      null,
+    finalTotal    decimal(10, 2)                      null,
+    addedDate     timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP
+)
+    auto_increment = 32;
+
+create table if not exists product
+(
+    product_id  int auto_increment
+        constraint PRIMARY
+        primary key,
+    name        varchar(255) not null,
+    code        varchar(250) null,
+    addedDate   datetime     null,
+    description text         null
+)
+    auto_increment = 25;
+
+create table if not exists invoice_details
+(
+    id            int auto_increment
+        constraint PRIMARY
+        primary key,
+    invoice_id    int            null,
+    product_id    int            null,
+    qty           int            null,
+    selling_price decimal(10, 2) null,
+    product_total decimal(10, 2) null,
+    constraint invoice_details_ibfk_1
+        foreign key (invoice_id) references invoice (invoice_id),
+    constraint invoice_details_ibfk_2
+        foreign key (product_id) references product (product_id)
+)
+    auto_increment = 19;
+
+create index invoice_id
+    on invoice_details (invoice_id);
+
+create index product_id
+    on invoice_details (product_id);
+
+create table if not exists stock
+(
+    stock_id     int auto_increment
+        constraint PRIMARY
+        primary key,
+    product_id   int            null,
+    batch_id     int            null,
+    unit_price   decimal(10, 2) null,
+    qty          int            null,
+    status       tinyint(1)     null,
+    addedDate    datetime       null,
+    product_name varchar(200)   null,
+    company_name varchar(200)   null,
+    constraint stock_ibfk_1
+        foreign key (batch_id) references batch (batch_id),
+    constraint stock_ibfk_2
+        foreign key (product_id) references product (product_id)
+)
+    auto_increment = 12;
+
+create index batch_id
+    on stock (batch_id);
+
+create index product_id
+    on stock (product_id);
+
+create table if not exists user
+(
+    user_id  int auto_increment
+        constraint PRIMARY
+        primary key,
+    name     varchar(255) not null,
+    contact  int(10)      null,
+    username varchar(50)  not null,
+    password varchar(255) null
+)
+    auto_increment = 5;
+

@@ -99,10 +99,10 @@ public class InventoryFormController {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
                 }
             } else {
-                selectedProduct.setCode(txtCode.getText());
-                selectedProduct.setName(txtName.getText());
-                selectedProduct.setAddedDate(Date.valueOf(datePicker.getValue()));
-                selectedProduct.setDescription(txtDescription.getText());
+                selectedProduct.setCode(code);
+                selectedProduct.setName(name);
+                selectedProduct.setAddedDate(addedDate);
+                selectedProduct.setDescription(description);
 
                 boolean isSaved = inventoryController.updateProduct(selectedProduct);
                 selectedProduct = null;

@@ -61,10 +61,16 @@ public class OrderFormController {
     public Text lblThree;
     public Text lblQuantity;
     public Button btnAddUpdateOrder;
+    public TextField txtSearchCustomer;
+    public Button btnCustomerClear;
+    public ListView<String> lvCustomerSearch;
+    public TableColumn colCustomerName;
 
     StockController stockController = new StockController();
     OrderController orderController = new OrderController();
+    CustomerController customerController = new CustomerController();
     private ArrayList<Stock> allStocks;
+    private ArrayList<Customer> allCustomers;
     private ArrayList<OrderDetailTm> orderedProductList = new ArrayList<>();
     ArrayList<Product> allProducts;
     ArrayList<ProductStockJoin> joinList;
@@ -78,18 +84,20 @@ public class OrderFormController {
 
     public void initialize() {
         try {
+            allCustomers = customerController.getAll();
             joinList = stockController.getStockProductJoin();
             mapProductList();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         colProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        colCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         colProductCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         colSellingPrice.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
         colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
         colProductTotal.setCellValueFactory(new PropertyValueFactory<>("productTotal"));
-        TableColumn<OrderDetailTm, Button> lastCol = (TableColumn<OrderDetailTm, Button>) tblOrderedProductList.getColumns().get(6);
+        TableColumn<OrderDetailTm, Button> lastCol = (TableColumn<OrderDetailTm, Button>) tblOrderedProductList.getColumns().get(7);
 
         lastCol.setCellValueFactory(param -> {
             Button btnDelete = new Button("Delete");
@@ -171,6 +179,8 @@ public class OrderFormController {
         hideAllStockLabels();
         lblProductCode.setText("--");
         lblProductName.setText("--");
+        btnCustomerClear.setVisible(false);
+        txtSearchCustomer.clear();
     }
 
     public void addOrderDetailToTable(ActionEvent actionEvent) {
@@ -178,7 +188,13 @@ public class OrderFormController {
         int intQuantity = Integer.parseInt(txtQuantity.getText());
         BigDecimal price = BigDecimal.valueOf(Double.parseDouble(txtPrice.getText()));
         BigDecimal discount = BigDecimal.valueOf(Double.parseDouble(txtDiscount.getText()));
-        OrderDetailTm orderDetailTm = new OrderDetailTm(selectedProduct.getProduct_id(), lblProductName.getText(), lblProductCode.getText(), price, intQuantity, discount, (price.subtract(discount)).multiply(quantity));
+        String customerId = null;
+        String customerName = null;
+        if (!txtSearchCustomer.getText().isEmpty()){
+            customerId = txtSearchCustomer.getText().split("-")[0];
+            customerName = txtSearchCustomer.getText().split("-")[1];
+        }
+        OrderDetailTm orderDetailTm = new OrderDetailTm(selectedProduct.getProduct_id(),customerId, customerName, lblProductName.getText(), lblProductCode.getText(), price, intQuantity, discount, (price.subtract(discount)).multiply(quantity));
 
         tblOrderedProductList.getItems().clear();
         if (isOrderTableUpdate) {
@@ -478,5 +494,56 @@ public class OrderFormController {
 
     public void viewOrderDetails(ActionEvent actionEvent) {
         Utils.setUi("OrderDetailsForm");
-    }/**/
+    }
+
+    public void onSearchCustomerKeyType(KeyEvent keyEvent) {
+        ArrayList<Customer> tempAllCustomers = allCustomers;
+        ArrayList<String> customerArray = new ArrayList<>();
+        String searchFieldText = txtSearchCustomer.getText().toLowerCase();
+        for (Customer customer : tempAllCustomers) {
+            if (customer.getName().toLowerCase().contains(searchFieldText) ||
+                    customer.getCustomer_nic().toLowerCase().contains(searchFieldText) ||
+                    customer.getNumber_plate().toLowerCase().contains(searchFieldText)) {
+                customerArray.add(customer.getCus_id() +" - "+ customer.getName()+" - "+ customer.getCustomer_nic()+" - "+customer.getNumber_plate());
+            }
+        }
+        lvCustomerSearch.getItems().clear();
+        lvCustomerSearch.getItems().addAll(customerArray);
+        customerArray.clear();
+    }
+
+    public void onCustomerSearch(MouseEvent mouseEvent) {
+        lvCustomerSearch.setVisible(true);
+        btnCustomerClear.setVisible(true);
+
+        ArrayList<String> customerArray = new ArrayList<>();
+        for (Customer customer : allCustomers) {
+            customerArray.add(customer.getCus_id() +" - "+ customer.getName()+" - "+ customer.getCustomer_nic()+" - "+customer.getNumber_plate());
+        }
+        lvCustomerSearch.getItems().clear();
+        lvCustomerSearch.getItems().addAll(customerArray);
+    }
+
+    public void clearSearchCustomer() {
+        lvCustomerSearch.getItems().clear();
+        txtSearchCustomer.clear();
+    }
+
+    public void onCustomerListViewMouseExited(MouseEvent mouseEvent) {
+        lvCustomerSearch.setVisible(false);
+        btnCustomerClear.setVisible(false);
+    }
+
+    public void onCustomerSearchClicked(MouseEvent mouseEvent) {
+        txtSearchCustomer.setText(lvCustomerSearch.getSelectionModel().getSelectedItem());
+        String[] array = lvCustomerSearch.getSelectionModel().getSelectedItem().split("-");
+        for (Customer customer : allCustomers) {
+            if (customer.getCus_id().equals(array[0].trim())){
+
+                break;
+            }
+        }
+        lvCustomerSearch.setVisible(false);
+        btnCustomerClear.setVisible(false);
+    }
 }
