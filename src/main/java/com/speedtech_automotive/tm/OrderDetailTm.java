@@ -16,6 +16,15 @@ public class OrderDetailTm {
     public OrderDetailTm() {
     }
 
+    public OrderDetailTm(String productName, String productCode, BigDecimal sellingPrice, int quantity, BigDecimal discount, BigDecimal productTotal) {
+        this.productName = productName;
+        this.productCode = productCode;
+        this.sellingPrice = sellingPrice;
+        this.quantity = quantity;
+        this.discount = discount;
+        this.productTotal = productTotal;
+    }
+
     public BigDecimal getProductTotal() {
         return productTotal;
     }

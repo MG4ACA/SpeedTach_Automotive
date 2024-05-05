@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 public class OrderFormController {
     public OrderDetail selectedOrderDetail;
     public Product selectedProduct;
+    public Customer selectedCustomer;
     public ArrayList<OrderDetail> orderDetailsList;
     public TextField txtPrice;
     public TextField txtQuantity;
@@ -414,7 +415,14 @@ public class OrderFormController {
             con = DBConnection.getConnection();
             con.setAutoCommit(false);
 
-            String order_id = orderController.saveOrder(new Order(totalPrice, totalDiscount, finalTotal, addedDate));
+            String customer_id = null;
+            String numberPlate = null;
+            if (selectedCustomer != null) {
+                customer_id = selectedCustomer.getCus_id();
+                numberPlate = selectedCustomer.getNumber_plate();
+            }
+
+            String order_id = orderController.saveOrder(new Order(totalPrice, customer_id, numberPlate, totalDiscount, finalTotal, addedDate));
 
             if (order_id != null) {
                 for (OrderDetailTm orderDetailTm : orderedProductList) {
@@ -504,6 +512,7 @@ public class OrderFormController {
             if (customer.getName().toLowerCase().contains(searchFieldText) ||
                     customer.getCustomer_nic().toLowerCase().contains(searchFieldText) ||
                     customer.getNumber_plate().toLowerCase().contains(searchFieldText)) {
+                selectedCustomer = customer;
                 customerArray.add(customer.getCus_id() +" - "+ customer.getName()+" - "+ customer.getCustomer_nic()+" - "+customer.getNumber_plate());
             }
         }
@@ -539,7 +548,7 @@ public class OrderFormController {
         String[] array = lvCustomerSearch.getSelectionModel().getSelectedItem().split("-");
         for (Customer customer : allCustomers) {
             if (customer.getCus_id().equals(array[0].trim())){
-
+                selectedCustomer = customer;
                 break;
             }
         }

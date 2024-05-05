@@ -6,18 +6,44 @@ import java.sql.Date;
 public class Order {
     String order_id;
     BigDecimal totalPrice;
+    String customer_id;
+    String numberPlate;
     BigDecimal totalDiscount;
     BigDecimal finalTotal;
     Date addedDate;
 
-    public Order() {
-    }
-
-    public Order(BigDecimal totalPrice, BigDecimal totalDiscount, BigDecimal finalTotal, Date addedDate) {
+    public Order(BigDecimal totalPrice, String customer_id, String numberPlate, BigDecimal totalDiscount, BigDecimal finalTotal, Date addedDate) {
         this.totalPrice = totalPrice;
+        this.customer_id = customer_id;
+        this.numberPlate = numberPlate;
         this.totalDiscount = totalDiscount;
         this.finalTotal = finalTotal;
         this.addedDate = addedDate;
+    }
+
+    public Order(String order_id, BigDecimal totalPrice, String customer_id, String numberPlate, BigDecimal totalDiscount, BigDecimal finalTotal, Date addedDate) {
+        this.order_id = order_id;
+        this.totalPrice = totalPrice;
+        this.customer_id = customer_id;
+        this.numberPlate = numberPlate;
+        this.totalDiscount = totalDiscount;
+        this.finalTotal = finalTotal;
+        this.addedDate = addedDate;
+    }
+
+    public Order(BigDecimal totalPrice, BigDecimal totalDiscount, BigDecimal finalTotal, String order_id) {
+        this.order_id = order_id;
+        this.totalPrice = totalPrice;
+        this.totalDiscount = totalDiscount;
+        this.finalTotal = finalTotal;
+    }
+
+    public String getNumberPlate() {
+        return numberPlate;
+    }
+
+    public void setNumberPlate(String numberPlate) {
+        this.numberPlate = numberPlate;
     }
 
     public String getOrder_id() {
@@ -34,6 +60,14 @@ public class Order {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
     }
 
     public BigDecimal getTotalDiscount() {
