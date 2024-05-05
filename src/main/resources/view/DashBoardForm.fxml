@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.effect.MotionBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="669.0" prefWidth="1077.0" stylesheets="@../assets/styles/dashboard_form.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.DashBoardFormController">
+<AnchorPane fx:id="mainPane" prefHeight="669.0" prefWidth="1077.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.DashBoardFormController">
    <children>
       <ImageView fitHeight="672.0" fitWidth="1175.0" layoutX="-20.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" styleClass="main-container">
          <image>
@@ -66,7 +68,7 @@
             <Line endX="103.73335266113281" layoutX="110.0" layoutY="171.0" startX="-100.0" />
             <Group layoutX="11.0" layoutY="538.0" onMouseClicked="#logOutOnAction">
                <children>
-                  <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="46.0" prefWidth="203.0" styleClass="button-class" text="LOGOUT" textAlignment="RIGHT" textOverrun="CLIP" wrapText="true">
+                  <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="46.0" prefWidth="203.0" styleClass="button-class-action" text="LOGOUT" textAlignment="RIGHT" textOverrun="CLIP" wrapText="true">
                      <font>
                         <Font name="Blackadder ITC" size="65.0" />
                      </font>
@@ -94,6 +96,17 @@
                      <image>
                         <Image url="@../assets/logout_icon.png" />
                      </image>
+                     <effect>
+                        <Glow level="1.0">
+                           <input>
+                              <Glow>
+                                 <input>
+                                    <Glow />
+                                 </input>
+                              </Glow>
+                           </input>
+                        </Glow>
+                     </effect>
                   </ImageView>
                </children>
             </Group>
@@ -151,133 +164,41 @@
                   </ImageView>
                </children>
             </Pane>
-            <Label fx:id="lblTimeHour" alignment="CENTER" layoutX="918.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="43" textAlignment="CENTER">
+            <Label fx:id="lblTimeHour" alignment="CENTER" layoutX="918.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="43" textAlignment="CENTER" textFill="#17066b">
                <font>
                   <Font name="Agency FB Bold" size="47.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9210526347160339" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.1323099434375763" green="0.04385964944958687" blue="0.5263158082962036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label fx:id="lblTimeSec" alignment="CENTER" layoutX="1024.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="25" textAlignment="CENTER">
+            <Label fx:id="lblTimeSec" alignment="CENTER" layoutX="1024.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="25" textAlignment="CENTER" textFill="#17066b">
                <font>
                   <Font name="Agency FB Bold" size="47.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9210526347160339" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.1323099434375763" green="0.04385964944958687" blue="0.5263158082962036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label fx:id="lblTimeMin" alignment="CENTER" layoutX="972.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="28" textAlignment="CENTER">
+            <Label fx:id="lblTimeMin" alignment="CENTER" layoutX="972.0" layoutY="4.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text="28" textAlignment="CENTER" textFill="#17066b">
                <font>
                   <Font name="Agency FB Bold" size="47.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9210526347160339" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.1323099434375763" green="0.04385964944958687" blue="0.5263158082962036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label alignment="CENTER" layoutX="998.0" layoutY="-2.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text=":" textAlignment="CENTER">
+            <Label alignment="CENTER" layoutX="998.0" layoutY="-2.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text=":" textAlignment="CENTER" textFill="#17066b">
                <font>
                   <Font name="Agency FB Bold" size="47.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9210526347160339" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.1323099434375763" green="0.04385964944958687" blue="0.5263158082962036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label alignment="CENTER" layoutX="945.0" layoutY="-2.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text=":" textAlignment="CENTER">
+            <Label alignment="CENTER" layoutX="945.0" layoutY="-2.0" prefHeight="51.0" prefWidth="49.0" styleClass="clock-class" text=":" textAlignment="CENTER" textFill="#17066b">
                <font>
                   <Font name="Agency FB Bold" size="47.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9210526347160339" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.1323099434375763" green="0.04385964944958687" blue="0.5263158082962036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Label fx:id="lblDate" layoutX="934.0" layoutY="57.0" prefHeight="24.0" prefWidth="136.0" styleClass="clock-class" text="2023.09.12">
+            <Label fx:id="lblDate" layoutX="934.0" layoutY="57.0" prefHeight="24.0" prefWidth="136.0" styleClass="clock-class" text="2023.09.12" textFill="#17066b">
                <font>
                   <Font name="Copperplate Gothic Bold" size="20.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.4659091035525003" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.9210526347160339" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.1323099434375763" green="0.04385964944958687" blue="0.5263158082962036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
          </children>
       </Pane>
    </children>
+   <stylesheets>
+      <URL value="@../assets/styles/dashboard_form.css" />
+      <URL value="@../assets/styles/main.css" />
+   </stylesheets>
 </AnchorPane>
