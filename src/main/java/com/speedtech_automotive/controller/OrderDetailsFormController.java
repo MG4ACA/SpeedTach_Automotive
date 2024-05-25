@@ -332,6 +332,7 @@ public class OrderDetailsFormController {
                 con.commit();
                 new Alert(Alert.AlertType.CONFIRMATION, "Order Updated").show();
                 clearAllFields();
+                onCustomerSearch();
 //                joinList = stockController.getStockProductJoin();
             }
         } catch (Exception er) {

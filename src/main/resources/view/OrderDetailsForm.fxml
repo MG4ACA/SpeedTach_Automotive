@@ -137,7 +137,7 @@
          </font>
       </Text>
       <Text fx:id="lblTotalValue" layoutX="531.0" layoutY="543.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--" wrappingWidth="131.73672485351562" />
-      <Button layoutX="522.0" layoutY="548.0" mnemonicParsing="false" onAction="#placeOrder" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Place Order">
+      <Button layoutX="522.0" layoutY="548.0" mnemonicParsing="false" onAction="#placeOrder" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Update Order">
          <font>
             <Font name="System Italic" size="4.0" />
          </font>

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.SubDashBoardFormController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../assets/styles/main.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.SubDashBoardFormController">
    <children>
-      <Text layoutX="24.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi this is dashboard" wrappingWidth="141.33670043945312" />
+      <BarChart fx:id="barChart" prefHeight="249.0" prefWidth="385.0" styleClass="chart-bar" >
+        <xAxis>
+          <CategoryAxis label="Monthly Totals" side="BOTTOM" styleClass="chart-bar" fx:id="xAxis" style="-fx-bar: blue;" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" label="Total Sales" side="LEFT" styleClass="chart-bar" style="-fx-bar: blue; "/>
+        </yAxis>
+      </BarChart>
    </children>
 </AnchorPane>
