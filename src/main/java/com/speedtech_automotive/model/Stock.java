@@ -11,13 +11,14 @@ public class Stock {
     String company_name;
     BigDecimal price;
     int quantity;
+    int initialQty;
     Date addedDate;
     Boolean status;
 
     public Stock() {
     }
 
-    public Stock(String stock_id, String product_id, String product_name, String supplier_id, String company_name, BigDecimal price, int quantity, Date addedDate, Boolean status) {
+    public Stock(String stock_id, String product_id, String product_name, String supplier_id, String company_name, BigDecimal price, int quantity, int initialQty, Date addedDate, Boolean status) {
         this.stock_id = stock_id;
         this.product_id = product_id;
         this.product_name = product_name;
@@ -25,19 +26,29 @@ public class Stock {
         this.company_name = company_name;
         this.price = price;
         this.quantity = quantity;
+        this.initialQty = initialQty;
         this.addedDate = addedDate;
         this.status = status;
     }
 
-    public Stock(String product_id, String product_name, String supplier_id, String company_name, BigDecimal price, int quantity, Date addedDate, Boolean status) {
+    public Stock(String product_id, String product_name, String supplier_id, String company_name, BigDecimal price, int quantity, int initialQty, Date addedDate, Boolean status) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.supplier_id = supplier_id;
         this.company_name = company_name;
         this.price = price;
         this.quantity = quantity;
+        this.initialQty = initialQty;
         this.addedDate = addedDate;
         this.status = status;
+    }
+
+    public int getInitialQty() {
+        return initialQty;
+    }
+
+    public void setInitialQty(int initialQty) {
+        this.initialQty = initialQty;
     }
 
     public String getStock_id() {

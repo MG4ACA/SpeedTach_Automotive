@@ -5,15 +5,31 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../assets/styles/main.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.SubDashBoardFormController">
+<AnchorPane prefHeight="594.0" prefWidth="874.0" stylesheets="@../assets/styles/main.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.SubDashBoardFormController">
    <children>
-      <BarChart fx:id="barChart" prefHeight="249.0" prefWidth="385.0" styleClass="chart-bar" >
+      <BarChart fx:id="barChart" layoutX="13.0" layoutY="46.0" prefHeight="238.0" prefWidth="450.0">
         <xAxis>
-          <CategoryAxis label="Monthly Totals" side="BOTTOM" styleClass="chart-bar" fx:id="xAxis" style="-fx-bar: blue;" />
+          <CategoryAxis prefHeight="50.0" prefWidth="307.0" side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxis" label="Total Sales" side="LEFT" styleClass="chart-bar" style="-fx-bar: blue; "/>
+          <NumberAxis fx:id="yAxis" label="Total Sales" prefHeight="187.0" prefWidth="70.0" side="LEFT" />
         </yAxis>
+      </BarChart>
+      <BarChart fx:id="productSaleBarChart" layoutX="509.0" layoutY="46.0" prefHeight="238.0" prefWidth="307.0">
+         <xAxis>
+            <CategoryAxis fx:id="productXAxis" prefHeight="50.0" prefWidth="307.0" side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="productYAxis" label="Total Products" prefHeight="187.0" prefWidth="50.0" side="LEFT" tickLabelGap="2.0" />
+         </yAxis>
+      </BarChart>
+      <BarChart fx:id="incomeBarChart" layoutX="112.0" layoutY="301.0" prefHeight="238.0" prefWidth="650.0">
+         <xAxis>
+            <CategoryAxis fx:id="incomeXAxis" prefHeight="50.0" prefWidth="307.0" side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="incomeYAxis" label="Total Sales" prefHeight="195.0" prefWidth="70.0" side="LEFT" />
+         </yAxis>
       </BarChart>
    </children>
 </AnchorPane>
