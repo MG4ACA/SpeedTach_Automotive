@@ -15,6 +15,18 @@ UPDATE ORDER DETAILS -> ADMIN PRIVILAGES ENABLE JUST FROM DB LEVEL, NO NEED TO A
 errors
 need to clear the array used in order from product list after adding the order
 
+keep another stock
 
 UI Changes
     In product form bold titles
+
+Dashboard
+    sales chart **
+    highest/lowest selling product
+    income/outcome chart
+
+
+discuss oop concepts
+
+Increasxe the y axis limit
+Add refresh icon in sub dashboard form

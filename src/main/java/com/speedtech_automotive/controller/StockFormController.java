@@ -152,7 +152,7 @@ public class StockFormController {
 
         try {
             if (selectedStock == null){
-                boolean isSaved = stockController.saveStock(new Stock(selectedProduct.getProduct_id(), selectedProduct.getName(), selectedSupplier.getBatch_id(), selectedSupplier.getCompanyName(), price, qty, addedDate, true));
+                boolean isSaved = stockController.saveStock(new Stock(selectedProduct.getProduct_id(), selectedProduct.getName(), selectedSupplier.getBatch_id(), selectedSupplier.getCompanyName(), price, qty, qty, addedDate, true));
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Stock added successfully..!").show();
                     clearFieldsOnClick();
@@ -210,6 +210,7 @@ public class StockFormController {
                                 dto.getSupplier_id(),
                                 dto.getCompany_name(),
                                 dto.getPrice(),
+                                dto.getQuantity(),
                                 dto.getQuantity(),
                                 dto.getAddedDate(),
                                 dto.getStatus()

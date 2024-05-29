@@ -16,9 +16,8 @@ public class Application extends javafx.application.Application {
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("JavaFX App");
+        primaryStage.setTitle("SpeedTech Automotive");
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {

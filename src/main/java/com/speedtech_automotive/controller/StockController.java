@@ -25,11 +25,12 @@ public class StockController {
 //            String productId = resultSet.getString(1);
 //        }
 
-        return Utils.executeUpdate("insert into Stock values(?,?,?,?,?,?,?,?,?)",
+        return Utils.executeUpdate("insert into Stock values(?,?,?,?,?,?,?,?,?,?)",
                 0,
                 stock.getProduct_id(),
                 stock.getSupplier_id(),
                 stock.getPrice(),
+                stock.getInitialQty(),
                 stock.getQuantity(),
                 stock.getStatus(),
                 stock.getAddedDate(),
@@ -85,13 +86,14 @@ public class StockController {
                     new Stock(
                             resultSet.getString(1),
                             resultSet.getString(2),
-                            resultSet.getString(8),
-                            resultSet.getString(3),
                             resultSet.getString(9),
+                            resultSet.getString(3),
+                            resultSet.getString(10),
                             resultSet.getBigDecimal(4),
                             resultSet.getInt(5),
-                            resultSet.getDate(7),
-                            resultSet.getBoolean(6)
+                            resultSet.getInt(6),
+                            resultSet.getDate(8),
+                            resultSet.getBoolean(7)
                     ));
         }
         return stocksArrayList;

@@ -123,7 +123,8 @@ public class CustomerFormController {
 
         try {
             if (selectedCustomer == null){
-                boolean isSaved = customerController.saveCustomer(new Customer(customerName, contact, numberPlate, address, cusNIC));
+                Customer customer = new Customer(customerName, contact, numberPlate, address, cusNIC);
+                boolean isSaved = customerController.saveCustomer(customer);
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Customer added successfully..!").show();
                     clearInputFields();

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class BatchFormController {
     public Supplier selectedSupplier;
-    private final  BatchController batchController = new BatchController();
+    public BatchController batchController = new BatchController();
     public TextField txtSearch;
     public TextArea txtDescription;
     public TextField txtContact;

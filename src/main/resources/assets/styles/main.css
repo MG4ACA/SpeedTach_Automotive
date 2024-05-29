@@ -17,3 +17,11 @@
 .background-pane {
     -fx-background-color: #eaedef;
 }
+
+.chart-bar {
+    -fx-fill: #59bb4a;
+}
+
+/*.default-color1.chart-bar {*/
+/*    -fx-fill: blue;  !* Change the second bar to blue *!*/
+/*}*/
