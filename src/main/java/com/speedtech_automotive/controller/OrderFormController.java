@@ -66,6 +66,8 @@ public class OrderFormController {
     public Button btnCustomerClear;
     public ListView<String> lvCustomerSearch;
     public TableColumn colCustomerName;
+    public BigDecimal totalInitialCost = BigDecimal.ZERO;
+    public BigDecimal orderTotalInitialCost = BigDecimal.ZERO;
 
     StockController stockController = new StockController();
     OrderController orderController = new OrderController();
@@ -426,6 +428,7 @@ public class OrderFormController {
 
             if (order_id != null) {
                 for (OrderDetailTm orderDetailTm : orderedProductList) {
+                    totalInitialCost = BigDecimal.ZERO;
                     availableStocksForAProduct = stockController.getAvailableStocks(orderDetailTm.getProduct_id());
                     int remainingQuantity = availableStocksForAProduct.get(0).getQuantity() - orderDetailTm.getQuantity();
                     status = updateStocksTable(orderDetailTm, remainingQuantity);
@@ -437,6 +440,12 @@ public class OrderFormController {
                     } else {
                         throw new SQLException("Something went wrong..!!");
                     }
+                    orderTotalInitialCost = orderTotalInitialCost.add(totalInitialCost);
+                }
+                boolean updated = orderController.updateOrderInitialCost(order_id, orderTotalInitialCost);
+                orderTotalInitialCost = BigDecimal.ZERO;
+                if (!updated) {
+                    throw new SQLException("Something went wrong..!!");
                 }
                 con.commit();
                 new Alert(Alert.AlertType.CONFIRMATION, "Order Placed").show();
@@ -467,8 +476,10 @@ public class OrderFormController {
     private Boolean updateStocksTable(OrderDetailTm orderDetailTm, int remainingQuantity) throws SQLException, ClassNotFoundException {
         Boolean status = false;
             if (remainingQuantity >= 0) {
+                totalInitialCost = totalInitialCost.add(BigDecimal.valueOf(remainingQuantity).multiply(availableStocksForAProduct.get(0).getPrice()));
                 status = stockController.updateStockQtyOnOder(remainingQuantity, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
             } else {
+                totalInitialCost = totalInitialCost.add(BigDecimal.valueOf(availableStocksForAProduct.get(0).getQuantity()).multiply(availableStocksForAProduct.get(0).getPrice()));
                 status = stockController.updateStockQtyOnOder(0, orderDetailTm.getProduct_id(), availableStocksForAProduct.get(0).getAddedDate());
                 availableStocksForAProduct.remove(0);
                 remainingQuantity = Math.abs(remainingQuantity);
