@@ -70,6 +70,31 @@ CREATE TABLE IF NOT EXISTS Invoice_details (
     FOREIGN KEY (product) REFERENCES product(product)
 );
 
+-- Create the order table
+CREATE TABLE orders(
+                       order_id      INT AUTO_INCREMENT PRIMARY KEY,
+                       totalPrice    DECIMAL(10, 2),
+                       totalDiscount DECIMAL(10, 2),
+                       finalTotal    DECIMAL(10, 2),
+                       addedDate     TIMESTAMP
+);
+
+-- Create the stock table
+CREATE TABLE stock(
+                      stock_id INT AUTO_INCREMENT PRIMARY KEY,
+                      product_id INT NOT NULL,
+                      batch_id INT,
+                      unit_price DECIMAL(10, 2),
+                      initialQty INT,
+                      status INT,
+                      addedDate DATETIME,
+                      product_name VARCHAR(255),
+                      company_name VARCHAR(255),
+                      FOREIGN KEY (product_id) REFERENCES product(product),
+                      FOREIGN KEY (batch_id) REFERENCES batch(batch_id)
+);
+
+-- Create the order_details table
 CREATE TABLE order_details(
                               orderDetail_id INT AUTO_INCREMENT PRIMARY KEY,
                               order_id       VARCHAR(50) NOT NULL,
@@ -81,14 +106,7 @@ CREATE TABLE order_details(
                               discount       DECIMAL(10, 2),
                               productTotal   DECIMAL(10, 2),
                               FOREIGN KEY (order_id) REFERENCES orders(order_id),
-                              FOREIGN KEY (product_id) REFERENCES product(product_id)
+                              FOREIGN KEY (product_id) REFERENCES product(product)
 );
 
-CREATE TABLE orders(
-    order_id      INT AUTO_INCREMENT PRIMARY KEY,
-    totalPrice    DECIMAL(10, 2),
-    totalDiscount DECIMAL(10, 2),
-    finalTotal    DECIMAL(10, 2),
-    addedDate     TIMESTAMP
-);
 

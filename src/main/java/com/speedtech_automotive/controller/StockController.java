@@ -61,7 +61,7 @@ public class StockController {
 
     public ArrayList<ProductStockJoin> getStockProductJoin() throws SQLException, ClassNotFoundException {
         ArrayList<ProductStockJoin> joinList = new ArrayList<>();
-        ResultSet resultSet = Utils.executeQuery("SELECT product.*,SUM(stock.qty) AS total_qty FROM product LEFT JOIN stock ON product.product_id = stock.product_id GROUP BY product.product_id, product.name");
+        ResultSet resultSet = Utils.executeQuery("SELECT product.*,SUM(stock.initialQty) AS total_qty FROM product LEFT JOIN stock ON product.product = stock.product_id GROUP BY product.product, product.name");
         while (resultSet.next()){
             joinList.add(
                     new ProductStockJoin(

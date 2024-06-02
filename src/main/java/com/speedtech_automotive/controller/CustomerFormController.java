@@ -10,7 +10,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class CustomerFormController {
     public TextField txtSearchCustomer;
@@ -32,8 +34,23 @@ public class CustomerFormController {
     ArrayList<Customer> allCustomers;
     private final  CustomerController customerController = new CustomerController();
 
+    LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+
 
     public void initialize(){
+        Pattern patternName = Pattern.compile("^[A-z]{3,}$");
+        Pattern patternNic = Pattern.compile("^[0-9Vv]{10,12}$");
+        Pattern patternPhone = Pattern.compile("^[0-9]{10}$");
+        Pattern patternNumberPlate = Pattern.compile("^[A-z 0-9]{5,15}$");
+        Pattern patternAddress = Pattern.compile("^[A-z . /]{2,}$");
+
+
+        map.put(txtCustomerName, patternName);
+        map.put(txtCustomerNIC, patternNic);
+        map.put(txtContactNumber, patternPhone);
+        map.put(txtNumberPlate, patternNumberPlate);
+        map.put(txtAddress, patternAddress);
+
         colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colCustomerNIC.setCellValueFactory(new PropertyValueFactory<>("customer_nic"));
         colNumber.setCellValueFactory(new PropertyValueFactory<>("contact"));
