@@ -4,6 +4,7 @@ import com.speedtech_automotive.model.Order;
 import com.speedtech_automotive.tm.OrderDetailTm;
 import com.speedtech_automotive.utils.Utils;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -70,5 +71,12 @@ public class OrderController {
     public ArrayList<Order> getOrdersByDate(LocalDate date) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = Utils.executeQuery("SELECT * FROM Orders WHERE addedDate=?", date);
         return mapOrdersResultSet(resultSet);
+    }
+
+    public boolean updateOrderInitialCost(String order_id, BigDecimal orderTotalInitialCost) throws SQLException, ClassNotFoundException {
+        return Utils.executeUpdate("UPDATE Orders SET totalPrice=? WHERE order_id=?",
+                orderTotalInitialCost,
+                order_id
+        );
     }
 }
