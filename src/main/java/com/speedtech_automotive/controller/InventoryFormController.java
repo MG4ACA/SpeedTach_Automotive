@@ -1,16 +1,21 @@
 package com.speedtech_automotive.controller;
 
 import com.speedtech_automotive.model.Product;
+import com.speedtech_automotive.utils.ValidationUtil;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class InventoryFormController {
     public Product selectedProduct;
@@ -27,9 +32,18 @@ public class InventoryFormController {
     public TableColumn colDescription;
     public ListView<String> lvSearch;
     public Button btnProductClear;
+    public Button btnSaveProduct;
     ArrayList<Product> allProducts;
 
+    LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+
     public void initialize(){
+
+        Pattern patternName = Pattern.compile("^[A-z]{3,}$");
+        btnSaveProduct.setDisable(true);
+
+        map.put(txtName, patternName);
+
         colProductCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("addedDate"));
@@ -95,23 +109,31 @@ public class InventoryFormController {
                     new Alert(Alert.AlertType.INFORMATION, "Product added successfully..!").show();
                     clearInputFields();
                     loadProductsTable();
+                    btnSaveProduct.setDisable(true);
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
                 }
             } else {
-                selectedProduct.setCode(code);
-                selectedProduct.setName(name);
-                selectedProduct.setAddedDate(addedDate);
-                selectedProduct.setDescription(description);
+                if (txtCode.getText()!=null && txtName.getText()!=null &&
+                        txtDescription.getText()!=null && datePicker.getValue()!=null){
+                    btnSaveProduct.setDisable(false);
+                    selectedProduct.setCode(code);
+                    selectedProduct.setName(name);
+                    selectedProduct.setAddedDate(addedDate);
+                    selectedProduct.setDescription(description);
 
-                boolean isSaved = inventoryController.updateProduct(selectedProduct);
-                selectedProduct = null;
-                if (isSaved) {
-                    new Alert(Alert.AlertType.INFORMATION, "Product updated successfully..!").show();
-                    loadProductsTable();
-                    clearInputFields();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    boolean isSaved = inventoryController.updateProduct(selectedProduct);
+                    selectedProduct = null;
+                    if (isSaved) {
+                        new Alert(Alert.AlertType.INFORMATION, "Product updated successfully..!").show();
+                        loadProductsTable();
+                        clearInputFields();
+                        btnSaveProduct.setDisable(true);
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    }
+                }else {
+                    btnSaveProduct.setDisable(true);
                 }
             }
 
@@ -194,5 +216,23 @@ public class InventoryFormController {
     public void onListViewMouseExited(MouseEvent mouseEvent) {
         lvSearch.setVisible(false);
         btnProductClear.setVisible(false);
+    }
+
+    public void textFieldsKeyReleasesd(KeyEvent keyEvent) {
+        ValidationUtil.Validation(map);
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            Object respond =  ValidationUtil.Validation(map);
+            if (respond instanceof TextField) {
+                TextField textField = (TextField) respond;
+                textField.requestFocus();
+            } else {
+                if (txtCode.getText()!=null && txtName.getText()!=null &&
+                        txtDescription.getText()!=null && datePicker.getValue()!=null){
+                    btnSaveProduct.setDisable(false);
+                }else {
+                    btnSaveProduct.setDisable(true);
+                }
+            }
+        }
     }
 }

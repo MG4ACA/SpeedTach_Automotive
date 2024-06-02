@@ -17,10 +17,10 @@
    <children>
       <Pane prefHeight="594.0" prefWidth="874.0" styleClass="form_container" stylesheets="@../assets/styles/inventry_form.css">
          <children>
-            <TextField fx:id="txtSearch" layoutX="48.0" layoutY="41.0" onKeyTyped="#onBatchSearch" onMouseClicked="#onMouseClicked" prefHeight="35.0" prefWidth="424.0" />
-            <TextField fx:id="txtSupplierName" layoutX="48.0" layoutY="122.0" prefHeight="35.0" prefWidth="257.0" />
-            <TextField fx:id="txtCompanyName" layoutX="320.0" layoutY="122.0" prefHeight="35.0" prefWidth="257.0" />
-            <TextField fx:id="txtContact" layoutX="590.0" layoutY="122.0" prefHeight="35.0" prefWidth="245.0" />
+            <TextField fx:id="txtSearch" layoutX="48.0" layoutY="41.0" onKeyTyped="#onBatchSearch" onMouseClicked="#onMouseClicked" prefHeight="35.0" prefWidth="424.0" promptText="Search By Supplier Name OR Comapny Name " />
+            <TextField fx:id="txtSupplierName" layoutX="48.0" layoutY="122.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="257.0" />
+            <TextField fx:id="txtCompanyName" layoutX="320.0" layoutY="122.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="257.0" />
+            <TextField fx:id="txtContact" layoutX="590.0" layoutY="122.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="245.0" />
             <TextArea fx:id="txtDescription" layoutX="48.0" layoutY="193.0" prefHeight="68.0" prefWidth="782.0" />
             <Button layoutX="708.0" layoutY="274.0" mnemonicParsing="false" onAction="#clearFieldsOnClick" prefHeight="31.0" prefWidth="122.0" styleClass="button-class-clear" text="Clear">
                <font>
@@ -45,7 +45,7 @@
             </TableView>
             <Text layoutX="49.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Supplier" wrappingWidth="191.73672485351562" />
             <Text layoutX="591.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Number" wrappingWidth="191.73672485351562" />
-            <Button layoutX="496.0" layoutY="274.0" mnemonicParsing="false" onAction="#saveSupplierOnClick" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Save Supplier">
+            <Button fx:id="btnSaveSupplier" layoutX="496.0" layoutY="274.0" mnemonicParsing="false" onAction="#saveSupplierOnClick" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Save Supplier">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>

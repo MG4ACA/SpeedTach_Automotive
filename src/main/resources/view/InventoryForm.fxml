@@ -19,10 +19,10 @@
          <children>
             <TextField fx:id="txtSearch" layoutX="48.0" layoutY="41.0" onKeyTyped="#onProductSearch" onMouseClicked="#onMouseClicked" prefHeight="35.0" prefWidth="424.0" />
             <TextField fx:id="txtCode" layoutX="48.0" layoutY="122.0" prefHeight="35.0" prefWidth="257.0" />
-            <TextField fx:id="txtName" layoutX="336.0" layoutY="122.0" prefHeight="35.0" prefWidth="257.0" />
+            <TextField fx:id="txtName" layoutX="336.0" layoutY="122.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="257.0" />
             <DatePicker fx:id="datePicker" layoutX="627.0" layoutY="122.0" prefHeight="35.0" prefWidth="203.0" />
             <TextField fx:id="txtDescription" layoutX="48.0" layoutY="192.0" prefHeight="73.0" prefWidth="782.0" />
-            <Button layoutX="627.0" layoutY="274.0" mnemonicParsing="false" onAction="#saveProductOnClick" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Save Product">
+            <Button fx:id="btnSaveProduct" layoutX="627.0" layoutY="274.0" mnemonicParsing="false" onAction="#saveProductOnClick" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Save Product">
                <font>
                   <Font name="System Italic" size="4.0" />
                </font>
