@@ -1,17 +1,22 @@
 package com.speedtech_automotive.controller;
 
 import com.speedtech_automotive.model.Supplier;
+import com.speedtech_automotive.utils.ValidationUtil;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class BatchFormController {
     public Supplier selectedSupplier;
@@ -29,10 +34,22 @@ public class BatchFormController {
     public TableColumn colDate;
     public ListView<String> lvSearch;
     public Button btnSupplierClear;
+    public Button btnSaveSupplier;
     ArrayList<Supplier> allSuppliers;
+
+    LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
 
 
     public void initialize(){
+        Pattern patterName = Pattern.compile("^[A-z ]{3,}$");
+        Pattern patternCompanyName = Pattern.compile("^[A-z ]{3,}$");
+        Pattern patternContact = Pattern.compile("^(070|071|072|074|075|076|077|078)[0-9]{7}$");
+
+        map.put(txtSupplierName, patterName);
+        map.put(txtCompanyName, patternCompanyName);
+        map.put(txtContact, patternContact);
+        btnSaveSupplier.setDisable(true);
+
         colSupplierName.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
         colCompanyName.setCellValueFactory(new PropertyValueFactory<>("companyName"));
         colContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
@@ -102,23 +119,29 @@ public class BatchFormController {
                     new Alert(Alert.AlertType.INFORMATION, "Supplier added successfully..!").show();
                     clearInputFields();
                     loadSuppliersTable();
+                    btnSaveSupplier.setDisable(true);
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
                 }
             } else {
-                selectedSupplier.setSupplierName(txtSupplierName.getText());
-                selectedSupplier.setCompanyName(txtCompanyName.getText());
-                selectedSupplier.setContact(Integer.parseInt(txtContact.getText()));
-                selectedSupplier.setDescription(txtDescription.getText());
+                if (txtSupplierName.getText()!=null && txtCompanyName.getText()!=null && txtContact.getText()!=null){
+                    selectedSupplier.setSupplierName(txtSupplierName.getText());
+                    selectedSupplier.setCompanyName(txtCompanyName.getText());
+                    selectedSupplier.setContact(Integer.parseInt(txtContact.getText()));
+                    selectedSupplier.setDescription(txtDescription.getText());
 
-                boolean isSaved = batchController.updateSupplier(selectedSupplier);
-                selectedSupplier = null;
-                if (isSaved) {
-                    new Alert(Alert.AlertType.INFORMATION, "Supplier updated successfully..!").show();
-                    loadSuppliersTable();
-                    clearInputFields();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    boolean isSaved = batchController.updateSupplier(selectedSupplier);
+                    selectedSupplier = null;
+                    if (isSaved) {
+                        new Alert(Alert.AlertType.INFORMATION, "Supplier updated successfully..!").show();
+                        loadSuppliersTable();
+                        clearInputFields();
+                        btnSaveSupplier.setDisable(true);
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    }
+                }else {
+                    btnSaveSupplier.setDisable(true);
                 }
             }
 
@@ -207,5 +230,19 @@ public class BatchFormController {
         txtSearch.clear();
         onBatchSearch();
         txtSearch.requestFocus();
+    }
+
+    public void textFieldsKeyReleasesd(KeyEvent keyEvent) {
+        ValidationUtil.Validation(map);
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            Object respond = ValidationUtil.Validation(map);
+            if (respond instanceof TextField) {
+                TextField textField = (TextField) respond;
+                textField.requestFocus();
+            } else {
+                btnSaveSupplier.setDisable(txtSupplierName.getText() == null || txtCompanyName.getText() == null ||
+                        txtContact.getText() == null || txtDescription.getText()==null);
+            }
+        }
     }
 }

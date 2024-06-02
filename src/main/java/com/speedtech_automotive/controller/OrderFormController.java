@@ -4,10 +4,12 @@ import com.speedtech_automotive.db.DBConnection;
 import com.speedtech_automotive.model.*;
 import com.speedtech_automotive.tm.OrderDetailTm;
 import com.speedtech_automotive.utils.Utils;
+import com.speedtech_automotive.utils.ValidationUtil;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -21,6 +23,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -85,7 +88,19 @@ public class OrderFormController {
     BigDecimal totalDiscount = new BigDecimal(0);
     BigDecimal finalTotal = new BigDecimal(0);
 
+    LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+
     public void initialize() {
+
+        Pattern patternSellingPrice = Pattern.compile("^[0-9 .]{3,}$");
+        Pattern patternDiscountPrice = Pattern.compile("^[0-9 .]{3,}$");
+        Pattern patternQty = Pattern.compile("^[0-9]{1,4}$");
+
+        map.put(txtPrice, patternSellingPrice);
+        map.put(txtDiscount, patternDiscountPrice);
+        map.put(txtQuantity, patternQty);
+        btnAddUpdateOrder.setDisable(true);
+
         try {
             allCustomers = customerController.getAll();
             joinList = stockController.getStockProductJoin();
@@ -187,35 +202,39 @@ public class OrderFormController {
     }
 
     public void addOrderDetailToTable(ActionEvent actionEvent) {
-        BigDecimal quantity = BigDecimal.valueOf(Integer.parseInt(txtQuantity.getText()));
-        int intQuantity = Integer.parseInt(txtQuantity.getText());
-        BigDecimal price = BigDecimal.valueOf(Double.parseDouble(txtPrice.getText()));
-        BigDecimal discount = BigDecimal.valueOf(Double.parseDouble(txtDiscount.getText()));
-        String customerId = null;
-        String customerName = null;
-        if (!txtSearchCustomer.getText().isEmpty()){
-            customerId = txtSearchCustomer.getText().split("-")[0];
-            customerName = txtSearchCustomer.getText().split("-")[1];
-        }
-        OrderDetailTm orderDetailTm = new OrderDetailTm(selectedProduct.getProduct_id(),customerId, customerName, lblProductName.getText(), lblProductCode.getText(), price, intQuantity, discount, (price.subtract(discount)).multiply(quantity));
+        if (txtPrice.getText() != null && txtDiscount.getText() != null && txtQuantity.getText() != null) {
+            btnAddUpdateOrder.setDisable(false);
+            BigDecimal quantity = BigDecimal.valueOf(Integer.parseInt(txtQuantity.getText()));
+            int intQuantity = Integer.parseInt(txtQuantity.getText());
+            BigDecimal price = BigDecimal.valueOf(Double.parseDouble(txtPrice.getText()));
+            BigDecimal discount = BigDecimal.valueOf(Double.parseDouble(txtDiscount.getText()));
+            String customerId = null;
+            String customerName = null;
+            if (!txtSearchCustomer.getText().isEmpty()) {
+                customerId = txtSearchCustomer.getText().split("-")[0];
+                customerName = txtSearchCustomer.getText().split("-")[1];
+            }
+            OrderDetailTm orderDetailTm = new OrderDetailTm(selectedProduct.getProduct_id(), customerId, customerName, lblProductName.getText(), lblProductCode.getText(), price, intQuantity, discount, (price.subtract(discount)).multiply(quantity));
 
-        tblOrderedProductList.getItems().clear();
-        if (isOrderTableUpdate) {
-            Iterator<OrderDetailTm> iterator = orderedProductList.iterator();
-            while (iterator.hasNext()) {
-                OrderDetailTm obj = iterator.next();
-                if (obj.getProduct_id().equals(orderDetailTm.getProduct_id())) {
-                    iterator.remove();
+            tblOrderedProductList.getItems().clear();
+            if (isOrderTableUpdate) {
+                Iterator<OrderDetailTm> iterator = orderedProductList.iterator();
+                while (iterator.hasNext()) {
+                    OrderDetailTm obj = iterator.next();
+                    if (obj.getProduct_id().equals(orderDetailTm.getProduct_id())) {
+                        iterator.remove();
+                    }
                 }
             }
+            orderedProductList.add(orderDetailTm);
+            tblOrderedProductList.getItems().addAll(orderedProductList);
+            clearFieldsOnClick();
+            isOrderTableUpdate = false;
+            btnAddUpdateOrder.setText("Add Order");
+            calculateTotals();
+        } else {
+            btnAddUpdateOrder.setDisable(true);
         }
-        orderedProductList.add(orderDetailTm);
-        tblOrderedProductList.getItems().addAll(orderedProductList);
-        clearFieldsOnClick();
-        isOrderTableUpdate = false;
-        btnAddUpdateOrder.setText("Add Order");
-        calculateTotals();
-
     }
 
     private void calculateTotals() {
@@ -565,5 +584,18 @@ public class OrderFormController {
         }
         lvCustomerSearch.setVisible(false);
         btnCustomerClear.setVisible(false);
+    }
+
+    public void textFieldsKeyReleasesd(KeyEvent keyEvent) {
+        ValidationUtil.Validation(map);
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            Object respond = ValidationUtil.Validation(map);
+            if (respond instanceof TextField) {
+                TextField textField = (TextField) respond;
+                textField.requestFocus();
+            } else {
+                btnAddUpdateOrder.setDisable(txtPrice.getText() == null || txtDiscount.getText() == null || txtQuantity.getText() == null);
+            }
+        }
     }
 }

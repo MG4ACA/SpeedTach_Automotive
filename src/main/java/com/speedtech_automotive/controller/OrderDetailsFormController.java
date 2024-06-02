@@ -6,10 +6,12 @@ import com.speedtech_automotive.model.Order;
 import com.speedtech_automotive.model.OrderDetail;
 import com.speedtech_automotive.tm.OrderDetailTm;
 import com.speedtech_automotive.utils.Utils;
+import com.speedtech_automotive.utils.ValidationUtil;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -20,6 +22,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.regex.Pattern;
 
 public class OrderDetailsFormController {
     public TableColumn colProductName;
@@ -48,6 +52,7 @@ public class OrderDetailsFormController {
     public Text lblTotalValue;
     public DatePicker datePicker;
     public TextField txtSearchCustomer;
+    public Button btnUpdateOrder;
     private Boolean isProductTableUpdate = false;
     private Order selectedorder;
     Customer selectedCustomer;
@@ -61,8 +66,18 @@ public class OrderDetailsFormController {
     ArrayList<Order> allOrders;
     ArrayList<Customer> allCustomers;
     ArrayList<OrderDetail> allOrderDetails;
+    LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
 
     public void initialize() {
+        Pattern patternSellingPrice = Pattern.compile("^[0-9 .]{3,}$");
+        Pattern patternDiscountPrice = Pattern.compile("^[0-9 .]{3,}$");
+        Pattern patternQty = Pattern.compile("^[0-9]{1,4}$");
+
+        map.put(txtPrice, patternSellingPrice);
+        map.put(txtDiscount, patternDiscountPrice);
+        map.put(txtQuantity, patternQty);
+        btnUpdateOrder.setDisable(true);
+
         try {
 
             allOrders = orderController.getAllOrders();
@@ -196,6 +211,7 @@ public class OrderDetailsFormController {
     }
 
     public void addOrderDetailToTable(ActionEvent actionEvent) {
+        if (txtPrice != null && txtDiscount != null && txtQuantity != null) {
         BigDecimal quantity = BigDecimal.valueOf(Integer.parseInt(txtQuantity.getText()));
         int intQuantity = Integer.parseInt(txtQuantity.getText());
         BigDecimal price = BigDecimal.valueOf(Double.parseDouble(txtPrice.getText()));
@@ -218,6 +234,9 @@ public class OrderDetailsFormController {
 //        isOrderTableUpdate = false;
 //        btnAddUpdateOrder.setText("Add Order");
         calculateTotals();
+        } else {
+            btnUpdateOrder.setDisable(true);
+        }
     }
 
     private void calculateTotals() {
@@ -376,5 +395,18 @@ public class OrderDetailsFormController {
 
     public void datepickerOnAction(ActionEvent actionEvent) {
         datePicker.setValue(null);
+    }
+
+    public void textFieldsKeyReleasesd(KeyEvent keyEvent) {
+        ValidationUtil.Validation(map);
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            Object respond = ValidationUtil.Validation(map);
+            if (respond instanceof TextField) {
+                TextField textField = (TextField) respond;
+                textField.requestFocus();
+            } else {
+                btnUpdateOrder.setDisable(txtPrice.getText() == null || txtDiscount.getText() == null || txtQuantity.getText() == null);
+            }
+        }
     }
 }

@@ -1,10 +1,12 @@
 package com.speedtech_automotive.controller;
 
 import com.speedtech_automotive.model.Customer;
+import com.speedtech_automotive.utils.ValidationUtil;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -31,6 +33,7 @@ public class CustomerFormController {
     public TextField txtContactNumber;
     public TextField txtNumberPlate;
     public Customer selectedCustomer;
+    public Button btnAddCustomer;
     ArrayList<Customer> allCustomers;
     private final  CustomerController customerController = new CustomerController();
 
@@ -40,10 +43,10 @@ public class CustomerFormController {
     public void initialize(){
         Pattern patternName = Pattern.compile("^[A-z]{3,}$");
         Pattern patternNic = Pattern.compile("^[0-9Vv]{10,12}$");
-        Pattern patternPhone = Pattern.compile("^[0-9]{10}$");
-        Pattern patternNumberPlate = Pattern.compile("^[A-z 0-9]{5,15}$");
+        Pattern patternPhone = Pattern.compile("^(070|071|072|074|075|076|077|078)[0-9]{7}$");
+        Pattern patternNumberPlate = Pattern.compile("^[A-z - 0-9]{7,9}$");
         Pattern patternAddress = Pattern.compile("^[A-z . /]{2,}$");
-
+        btnAddCustomer.setDisable(true);
 
         map.put(txtCustomerName, patternName);
         map.put(txtCustomerNIC, patternNic);
@@ -131,7 +134,7 @@ public class CustomerFormController {
         txtSearchCustomer.clear();
     }
 
-    public void addCustomerDetails(ActionEvent actionEvent) {
+    public void addCustomerDetails() {
         String customerName = txtCustomerName.getText();
         String contact = txtContactNumber.getText();
         String numberPlate = txtNumberPlate.getText();
@@ -146,23 +149,31 @@ public class CustomerFormController {
                     new Alert(Alert.AlertType.INFORMATION, "Customer added successfully..!").show();
                     clearInputFields();
                     loadCustomerTable();
+                    btnAddCustomer.setDisable(true);
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
                 }
             } else {
-                selectedCustomer.setName(customerName);
-                selectedCustomer.setContact(contact);
-                selectedCustomer.setNumber_plate(numberPlate);
-                selectedCustomer.setAddress(address);
-                selectedCustomer.setCustomer_nic(cusNIC);
-                boolean isSaved = customerController.updateCustomer(selectedCustomer);
-                selectedCustomer = null;
-                if (isSaved) {
-                    new Alert(Alert.AlertType.INFORMATION, "Customer updated successfully..!").show();
-                    loadCustomerTable();
-                    clearInputFields();
+                if (txtCustomerName.getText() != null && txtCustomerNIC.getText() != null &&
+                        txtContactNumber.getText() != null && txtNumberPlate.getText() != null && txtAddress.getText() != null) {
+                    btnAddCustomer.setDisable(false);
+                    selectedCustomer.setName(customerName);
+                    selectedCustomer.setContact(contact);
+                    selectedCustomer.setNumber_plate(numberPlate);
+                    selectedCustomer.setAddress(address);
+                    selectedCustomer.setCustomer_nic(cusNIC);
+                    boolean isSaved = customerController.updateCustomer(selectedCustomer);
+                    selectedCustomer = null;
+                    if (isSaved) {
+                        new Alert(Alert.AlertType.INFORMATION, "Customer updated successfully..!").show();
+                        loadCustomerTable();
+                        clearInputFields();
+                        btnAddCustomer.setDisable(true);
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    }
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    btnAddCustomer.setDisable(true);
                 }
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -221,5 +232,19 @@ public class CustomerFormController {
         }
         lvSearch.getItems().clear();
         lvSearch.getItems().addAll(customerArray);
+    }
+
+    public void textFieldsKeyReleasesd(KeyEvent keyEvent) {
+        ValidationUtil.Validation(map);
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            Object respond = ValidationUtil.Validation(map);
+            if (respond instanceof TextField) {
+                TextField textField = (TextField) respond;
+                textField.requestFocus();
+            } else {
+                btnAddCustomer.setDisable(txtCustomerName.getText() == null || txtCustomerNIC.getText() == null ||
+                        txtContactNumber.getText() == null || txtNumberPlate.getText() == null || txtAddress.getText() == null);
+            }
+        }
     }
 }

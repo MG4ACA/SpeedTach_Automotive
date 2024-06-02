@@ -74,9 +74,9 @@
             </Button>
             </children>
         </Pane>
-      <TextField fx:id="txtPrice" layoutX="49.0" layoutY="230.0" prefHeight="30.0" prefWidth="203.0" />
-      <TextField fx:id="txtDiscount" layoutX="317.0" layoutY="230.0" prefHeight="30.0" prefWidth="192.0" />
-      <TextField fx:id="txtQuantity" layoutX="570.0" layoutY="230.0" onKeyTyped="#validateQuantity" prefHeight="30.0" prefWidth="192.0" />
+      <TextField fx:id="txtPrice" layoutX="49.0" layoutY="230.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="30.0" prefWidth="203.0" />
+      <TextField fx:id="txtDiscount" layoutX="317.0" layoutY="230.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="30.0" prefWidth="192.0" />
+      <TextField fx:id="txtQuantity" layoutX="570.0" layoutY="230.0" onKeyReleased="#textFieldsKeyReleasesd" onKeyTyped="#validateQuantity" prefHeight="30.0" prefWidth="192.0" />
       <Button fx:id="btnUpdateOrder" layoutX="523.0" layoutY="277.0" mnemonicParsing="false" onAction="#addOrderDetailToTable" prefHeight="31.0" prefWidth="203.0" styleClass="button-class-action" text="Update Table" textFill="WHITE">
          <font>
             <Font name="System Bold" size="4.0" />

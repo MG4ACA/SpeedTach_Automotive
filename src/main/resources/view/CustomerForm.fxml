@@ -17,11 +17,11 @@
       <Pane prefHeight="594.0" prefWidth="874.0" styleClass="form_container">
          <children>
             <TextField fx:id="txtSearchCustomer" layoutX="48.0" layoutY="41.0" onKeyTyped="#onCustomerSearch" onMouseClicked="#onMouseClicked" prefHeight="35.0" prefWidth="424.0" promptText="Search by Customer Name, NIC or Number Plate" />
-            <TextField fx:id="txtCustomerName" layoutX="48.0" layoutY="122.0" prefHeight="35.0" prefWidth="212.0" />
-            <TextField fx:id="txtCustomerNIC" layoutX="328.0" layoutY="122.0" prefHeight="35.0" prefWidth="212.0" />
-            <TextField fx:id="txtContactNumber" layoutX="618.0" layoutY="119.0" prefHeight="35.0" prefWidth="212.0" />
-            <TextField fx:id="txtNumberPlate" layoutX="48.0" layoutY="190.0" prefHeight="35.0" prefWidth="212.0" />
-            <TextField fx:id="txtAddress" layoutX="329.0" layoutY="188.0" prefHeight="49.0" prefWidth="501.0" />
+            <TextField fx:id="txtCustomerName" layoutX="48.0" layoutY="122.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="212.0" />
+            <TextField fx:id="txtCustomerNIC" layoutX="328.0" layoutY="122.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="212.0" />
+            <TextField fx:id="txtContactNumber" layoutX="618.0" layoutY="119.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="212.0" />
+            <TextField fx:id="txtNumberPlate" layoutX="48.0" layoutY="190.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="35.0" prefWidth="212.0" />
+            <TextField fx:id="txtAddress" layoutX="329.0" layoutY="188.0" onKeyReleased="#textFieldsKeyReleasesd" prefHeight="49.0" prefWidth="501.0" />
             <Text layoutX="329.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer NIC" wrappingWidth="191.73672485351562" />
             <Text layoutX="330.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" wrappingWidth="191.73672485351562" />
             <Text layoutX="50.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" wrappingWidth="191.73672485351562" />

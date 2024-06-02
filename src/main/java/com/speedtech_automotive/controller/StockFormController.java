@@ -3,10 +3,12 @@ package com.speedtech_automotive.controller;
 import com.speedtech_automotive.model.Product;
 import com.speedtech_automotive.model.Stock;
 import com.speedtech_automotive.model.Supplier;
+import com.speedtech_automotive.utils.ValidationUtil;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -16,7 +18,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class StockFormController {
     public Stock selectedStock;
@@ -30,6 +34,7 @@ public class StockFormController {
     public ListView lvStockSearch;
     public TextField txtSearchStock;
     public Button btnStockClear;
+    public Button btnSaveStock;
     ArrayList<Supplier> allSuppliers;
     ArrayList<Product> allProducts;
     ArrayList<Stock> allStocks;
@@ -51,10 +56,21 @@ public class StockFormController {
     public ListView lvSupplierSearch;
     public ListView lvProductSearch;
 
+    LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+
     Product product;
     Supplier supplier;
 
     public void initialize() throws SQLException, ClassNotFoundException {
+
+        Pattern patternPrice = Pattern.compile("^[0-9 .]{1,}$");
+        Pattern patternQty = Pattern.compile("^[0-9]{1,3}$");
+
+        btnSaveStock.setDisable(true);
+
+        map.put(txtPrice, patternPrice);
+        map.put(txtQuantity, patternQty);
+
         allSuppliers = batchController.getAll();
         allProducts = inventoryController.getAll();
         allStocks = stockController.getAll();
@@ -157,25 +173,32 @@ public class StockFormController {
                     new Alert(Alert.AlertType.INFORMATION, "Stock added successfully..!").show();
                     clearFieldsOnClick();
                     loadStocksTable();
+                    btnSaveStock.setDisable(true);
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
                 }
             } else {
-                selectedStock.setProduct_id(selectedProduct.getProduct_id());
-                selectedStock.setSupplier_id(selectedSupplier.getBatch_id());
-                selectedStock.setProduct_name(selectedProduct.getName());
-                selectedStock.setCompany_name(selectedSupplier.getCompanyName());
-                selectedStock.setPrice(new BigDecimal(txtPrice.getText()));
-                selectedStock.setQuantity(Integer.parseInt(txtQuantity.getText()));
+                if (txtPrice.getText()!=null && txtQuantity.getText()!=null){
+                    btnSaveStock.setDisable(false);
+                    selectedStock.setProduct_id(selectedProduct.getProduct_id());
+                    selectedStock.setSupplier_id(selectedSupplier.getBatch_id());
+                    selectedStock.setProduct_name(selectedProduct.getName());
+                    selectedStock.setCompany_name(selectedSupplier.getCompanyName());
+                    selectedStock.setPrice(new BigDecimal(txtPrice.getText()));
+                    selectedStock.setQuantity(Integer.parseInt(txtQuantity.getText()));
 
-                boolean isSaved = stockController.updateStock(selectedStock);
-                selectedStock = null;
-                if (isSaved) {
-                    new Alert(Alert.AlertType.INFORMATION, "Stock updated successfully..!").show();
-                    loadStocksTable();
-                    clearFieldsOnClick();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    boolean isSaved = stockController.updateStock(selectedStock);
+                    selectedStock = null;
+                    if (isSaved) {
+                        new Alert(Alert.AlertType.INFORMATION, "Stock updated successfully..!").show();
+                        loadStocksTable();
+                        clearFieldsOnClick();
+                        btnSaveStock.setDisable(true);
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Something Wrong..!").show();
+                    }
+                }else {
+                    btnSaveStock.setDisable(true);
                 }
             }
 
@@ -368,5 +391,22 @@ public class StockFormController {
     public void onStockListMouseExited(MouseEvent mouseEvent) {
         lvStockSearch.setVisible(false);
         btnStockClear.setVisible(false);
+    }
+
+    public void textFieldsKeyReleasesd(KeyEvent keyEvent) {
+        ValidationUtil.Validation(map);
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            Object respond =  ValidationUtil.Validation(map);
+            if (respond instanceof TextField) {
+                TextField textField = (TextField) respond;
+                textField.requestFocus();
+            } else {
+                if (txtPrice.getText()!=null && txtQuantity.getText()!=null){
+                    btnSaveStock.setDisable(false);
+                }else {
+                    btnSaveStock.setDisable(true);
+                }
+            }
+        }
     }
 }
