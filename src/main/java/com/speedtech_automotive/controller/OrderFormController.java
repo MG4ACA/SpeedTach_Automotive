@@ -1,5 +1,14 @@
 package com.speedtech_automotive.controller;
 
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
 import com.speedtech_automotive.db.DBConnection;
 import com.speedtech_automotive.model.*;
 import com.speedtech_automotive.tm.OrderDetailTm;
@@ -12,15 +21,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.scene.control.ListCell;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -92,14 +103,14 @@ public class OrderFormController {
 
     public void initialize() {
 
-        Pattern patternSellingPrice = Pattern.compile("^[0-9 .]{3,}$");
-        Pattern patternDiscountPrice = Pattern.compile("^[0-9 .]{3,}$");
+        Pattern patternSellingPrice = Pattern.compile("^[0-9 .]{2,}$");
+        Pattern patternDiscountPrice = Pattern.compile("^[0-9 .]{2,}$");
         Pattern patternQty = Pattern.compile("^[0-9]{1,4}$");
 
         map.put(txtPrice, patternSellingPrice);
         map.put(txtDiscount, patternDiscountPrice);
         map.put(txtQuantity, patternQty);
-        btnAddUpdateOrder.setDisable(true);
+//        btnAddUpdateOrder.setDisable(true);
 
         try {
             allCustomers = customerController.getAll();
@@ -233,7 +244,7 @@ public class OrderFormController {
             btnAddUpdateOrder.setText("Add Order");
             calculateTotals();
         } else {
-            btnAddUpdateOrder.setDisable(true);
+//            btnAddUpdateOrder.setDisable(true);
         }
     }
 
@@ -444,7 +455,6 @@ public class OrderFormController {
             }
 
             String order_id = orderController.saveOrder(new Order(totalPrice, customer_id, numberPlate, totalDiscount, finalTotal, addedDate));
-
             if (order_id != null) {
                 for (OrderDetailTm orderDetailTm : orderedProductList) {
                     totalInitialCost = BigDecimal.ZERO;
@@ -467,8 +477,9 @@ public class OrderFormController {
                     throw new SQLException("Something went wrong..!!");
                 }
                 con.commit();
-                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed").show();
+                CreateBill(orderedProductList, finalTotal);
                 clearAllFields();
+                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed").show();
                 joinList = stockController.getStockProductJoin();
 
             }
@@ -479,6 +490,8 @@ public class OrderFormController {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+            System.out.println("67");
+            System.out.println("ërror " + er);
             new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
         } finally {
             try {
@@ -490,6 +503,66 @@ public class OrderFormController {
             }
         }
 
+    }
+
+    private void CreateBill(ArrayList<OrderDetailTm> orderedProductList, BigDecimal totalPrice) throws FileNotFoundException {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH"));
+        String uniqueName = "Order"+ "_" + timestamp + ".pdf";
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(uniqueName));
+        pdfDoc.setDefaultPageSize(PageSize.A6);
+        Document doc = new Document(pdfDoc);
+
+        Paragraph restaurantNamePara = new Paragraph("SpeedTech Automotive").setTextAlignment(TextAlignment.CENTER).setUnderline()
+                .setFontSize(16)
+                .setMarginBottom(10);
+        doc.add(restaurantNamePara);
+
+        Paragraph mainPara = new Paragraph();
+        String nowDateTime = String.format("%s %s", LocalDate.now(), LocalTime.now());
+        String formattedDateTime = String.format("%-45s%s", nowDateTime.substring(0, 10), nowDateTime.substring(11,19));
+        mainPara.add(formattedDateTime);
+        doc.add(mainPara);
+
+        Paragraph spacePara = new Paragraph();
+        doc.add(spacePara);
+
+        Table table = new Table(3);
+//        table.setWidth(230);
+        table.setBorder(Border.NO_BORDER);
+        table.addCell(new Cell().add(new Paragraph("Product")).setFontSize(12).setBorder(Border.NO_BORDER).setBold().setWidth(200));
+        table.addCell(new Cell().add(new Paragraph("Quantity")).setFontSize(12).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBold().setWidth(220));
+        table.addCell(new Cell().add(new Paragraph("Total")).setFontSize(12).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBold().setWidth(150));
+
+
+        for (int i = 0; i < orderedProductList.size(); i++) {
+            Cell cell1 = new Cell().add(new Paragraph(orderedProductList.get(i).getProductName())).setFontSize(10).setTextAlignment(TextAlignment.LEFT);
+            Cell cell2 = new Cell().add(new Paragraph(String.valueOf(orderedProductList.get(i).getQuantity()))).setFontSize(10).setTextAlignment(TextAlignment.CENTER);
+            Cell cell3 = new Cell().add(new Paragraph(String.valueOf(orderedProductList.get(i).getProductTotal()))).setFontSize(10).setTextAlignment(TextAlignment.CENTER);
+
+            cell1.setBorder(Border.NO_BORDER);
+            cell2.setBorder(Border.NO_BORDER);
+            cell3.setBorder(Border.NO_BORDER);
+
+            table.addCell(cell1);
+            table.addCell(cell2);
+            table.addCell(cell3);
+        }
+        table.setBorder(Border.NO_BORDER);
+        table.setTextAlignment(TextAlignment.CENTER);
+        doc.add(table);
+
+        Paragraph paragraph = new Paragraph();
+        String total="Total Price : "+totalPrice;
+        paragraph.add(total).setTextAlignment(TextAlignment.RIGHT).setBold();
+        doc.add(paragraph);
+
+        Paragraph thankYouPara = new Paragraph("Thank you! Come again.")
+                .setMarginTop(10)
+                .setTextAlignment(TextAlignment.CENTER);
+        doc.add(thankYouPara);
+
+        doc.close();
+        System.out.println("PDF bill generated successfully!");
     }
 
     private Boolean updateStocksTable(OrderDetailTm orderDetailTm, int remainingQuantity) throws SQLException, ClassNotFoundException {
@@ -594,7 +667,7 @@ public class OrderFormController {
                 TextField textField = (TextField) respond;
                 textField.requestFocus();
             } else {
-                btnAddUpdateOrder.setDisable(txtPrice.getText() == null || txtDiscount.getText() == null || txtQuantity.getText() == null);
+//                btnAddUpdateOrder.setDisable(txtPrice.getText() == null || txtDiscount.getText() == null || txtQuantity.getText() == null);
             }
         }
     }

@@ -20,7 +20,7 @@ public class ValidationUtil {
     }
 
     public static void removeError(TextField key) {
-        key.setStyle("-fx-border-color: green; -fx-border-radius: 10; -fx-background-radius: 10");
+        key.setStyle("-fx-border-color: #023e8a;");
     }
 
     public static void addError(TextField key) {
