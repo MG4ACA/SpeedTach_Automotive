@@ -7,6 +7,7 @@ module com.speedtech_automotive {
     requires java.sql;
     requires kernel;
     requires layout;
+    requires jasperreports;
 
     opens com.speedtech_automotive to javafx.fxml;
     exports com.speedtech_automotive;
