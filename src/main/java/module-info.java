@@ -5,6 +5,9 @@ module com.speedtech_automotive {
         requires javafx.web;
         requires eu.hansolo.tilesfx;
     requires java.sql;
+    requires kernel;
+    requires layout;
+    requires jasperreports;
 
     opens com.speedtech_automotive to javafx.fxml;
     exports com.speedtech_automotive;
