@@ -1,5 +1,6 @@
 package com.speedtech_automotive.controller;
 
+import com.speedtech_automotive.db.DBConnection;
 import com.speedtech_automotive.utils.Utils;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -10,8 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -80,4 +86,27 @@ public class DashBoardFormController {
     }
 
     public void loadCustomerForm(ActionEvent actionEvent) { Utils.setUi("CustomerForm"); }
+
+    public void CustomerReportOnClick(ActionEvent actionEvent) {
+        try {
+            JasperDesign load = JRXmlLoader.load(this.getClass().getResourceAsStream("/view/report/Customer.jrxml"));
+            JasperReport jasperReport = JasperCompileManager.compileReport(load);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DBConnection.getConnection());
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void orderReportOnClick(ActionEvent actionEvent) {
+        try {
+            JasperDesign load = JRXmlLoader.load(this.getClass().getResourceAsStream("/view/report/orders.jrxml"));
+            JasperReport jasperReport = JasperCompileManager.compileReport(load);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DBConnection.getConnection());
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
