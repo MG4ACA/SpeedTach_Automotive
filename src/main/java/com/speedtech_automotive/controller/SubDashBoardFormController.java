@@ -1,7 +1,9 @@
 package com.speedtech_automotive.controller;
 
-import javafx.collections.FXCollections;
-import javafx.scene.chart.*;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +28,7 @@ public class SubDashBoardFormController {
 //        productXAxis.setLabel("Product");
         productYAxis.setLabel("Product Quantity");
 //        incomeXAxis.setLabel("Income");
-        incomeYAxis.setLabel("Product Quantity");
+        incomeYAxis.setLabel("Total Sales");
 
 
 

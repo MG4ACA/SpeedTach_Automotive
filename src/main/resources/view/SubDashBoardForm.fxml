@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="594.0" prefWidth="874.0" stylesheets="@../assets/styles/main.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.speedtech_automotive.controller.SubDashBoardFormController">
    <children>
-      <BarChart fx:id="barChart" layoutX="13.0" layoutY="46.0" prefHeight="238.0" prefWidth="450.0">
+      <BarChart fx:id="barChart" layoutX="13.0" layoutY="294.0" prefHeight="238.0" prefWidth="450.0">
         <xAxis>
           <CategoryAxis prefHeight="50.0" prefWidth="307.0" side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -15,7 +15,7 @@
           <NumberAxis fx:id="yAxis" label="Total Sales" prefHeight="187.0" prefWidth="70.0" side="LEFT" />
         </yAxis>
       </BarChart>
-      <BarChart fx:id="productSaleBarChart" layoutX="509.0" layoutY="46.0" prefHeight="238.0" prefWidth="307.0">
+      <BarChart fx:id="productSaleBarChart" layoutX="509.0" layoutY="294.0" prefHeight="238.0" prefWidth="307.0">
          <xAxis>
             <CategoryAxis fx:id="productXAxis" prefHeight="50.0" prefWidth="307.0" side="BOTTOM" />
          </xAxis>
@@ -23,7 +23,7 @@
             <NumberAxis fx:id="productYAxis" label="Total Products" prefHeight="187.0" prefWidth="50.0" side="LEFT" tickLabelGap="2.0" />
          </yAxis>
       </BarChart>
-      <BarChart fx:id="incomeBarChart" layoutX="112.0" layoutY="301.0" prefHeight="238.0" prefWidth="650.0">
+      <BarChart fx:id="incomeBarChart" layoutX="112.0" layoutY="51.0" prefHeight="238.0" prefWidth="650.0">
          <xAxis>
             <CategoryAxis fx:id="incomeXAxis" prefHeight="50.0" prefWidth="307.0" side="BOTTOM" />
          </xAxis>

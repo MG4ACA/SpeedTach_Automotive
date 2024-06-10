@@ -3,11 +3,14 @@ CREATE DATABASE IF NOT EXISTS speedtech_automotive;
 USE speedtech_automotive;
 
 -- Create the customer table
-CREATE TABLE IF NOT EXISTS customer (
+create table if not exists customer
+(
     cus_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    contact INT(10),
-    number_plate VARCHAR(255)
+    name         varchar(255) not null,
+    contact      int(10)      null,
+    number_plate varchar(255) null,
+    address      varchar(200) null,
+    customer_nic varchar(20)  null
 );
 
 -- Create the product table
@@ -29,10 +32,14 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 -- Create the batch table
-CREATE TABLE IF NOT EXISTS batch (
+create table if not exists batch
+(
     batch_id INT AUTO_INCREMENT PRIMARY KEY,
-    datetime DATETIME,
-    description TEXT
+    supplierName varchar(200) null,
+    companyName  varchar(200) null,
+    contact      int          null,
+    description  text         null,
+    addedDate    datetime     null
 );
 
 -- Create the batch_details table
@@ -47,37 +54,19 @@ CREATE TABLE IF NOT EXISTS batch_details (
     FOREIGN KEY (product) REFERENCES product(product)
 );
 
--- Create the Invoice table
-CREATE TABLE IF NOT EXISTS Invoice (
-    invoice_id INT AUTO_INCREMENT PRIMARY KEY,
-    status VARCHAR(255),
-    total DECIMAL(10, 2),
-    advance DECIMAL(10, 2),
-    datetime DATETIME,
-    cus_id INT,
-    FOREIGN KEY (cus_id) REFERENCES customer(cus_id)
-);
-
--- Create the Invoice_details table
-CREATE TABLE IF NOT EXISTS Invoice_details (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    invoice_id INT,
-    product INT,
-    qty INT,
-    selling_price DECIMAL(10, 2),
-    product_total DECIMAL(10, 2),
-    FOREIGN KEY (invoice_id) REFERENCES Invoice(invoice_id),
-    FOREIGN KEY (product) REFERENCES product(product)
-);
-
 -- Create the order table
-CREATE TABLE orders(
-                       order_id      INT AUTO_INCREMENT PRIMARY KEY,
-                       totalPrice    DECIMAL(10, 2),
-                       totalDiscount DECIMAL(10, 2),
-                       finalTotal    DECIMAL(10, 2),
-                       addedDate     TIMESTAMP
+create table if not exists orders
+(
+    order_id      INT AUTO_INCREMENT PRIMARY KEY,
+    totalPrice    decimal(10, 2)                      null,
+    totalDiscount decimal(10, 2)                      null,
+    finalTotal    decimal(10, 2)                      null,
+    addedDate     timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    customer_id   varchar(100)                        null,
+    numberPlate   varchar(200)                        null
 );
+
+
 
 -- Create the stock table
 CREATE TABLE stock(
@@ -86,6 +75,7 @@ CREATE TABLE stock(
                       batch_id INT,
                       unit_price DECIMAL(10, 2),
                       initialQty INT,
+                      qty INT,
                       status INT,
                       addedDate DATETIME,
                       product_name VARCHAR(255),
